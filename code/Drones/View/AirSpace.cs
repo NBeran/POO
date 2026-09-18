@@ -8,12 +8,17 @@ namespace Drones
     {
         public static readonly int WIDTH = 1200;        // Dimensions of the airspace
         public static readonly int HEIGHT = 600;
-
+        public static bool droite = false;
+        public static bool gauche = false;
+        public static bool haut = false;
+        public static bool bas = false;
+        
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
         private Drone _player;
 
         BufferedGraphicsContext currentContext;
         BufferedGraphics airspace;
+
 
         // Initialisation de l'espace aérien avec un certain nombre de drones
         public AirSpace(Drone player)
@@ -56,10 +61,46 @@ namespace Drones
         {
             switch (e.KeyCode)
             {
-                case Keys.Space:
+                case Keys.W:
+                    haut = true;
+                    _player.ChangeDirection();
+                    break;
+                case Keys.S:
+                    bas = true;
+                    _player.ChangeDirection();
+                    break;
+                case Keys.D:
+                    droite = true;
+                    _player.ChangeDirection();
+                    break;
+                case Keys.A:
+                    gauche = true;
+                    _player.ChangeDirection();
+                    break;
+            }
+        }
+        private void AirSpace_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    haut = false;
+                    _player.ChangeDirection();
+                    break;
+                case Keys.S:
+                    bas = false;
+                    _player.ChangeDirection();
+                    break;
+                case Keys.D:
+                    droite = false;
+                    _player.ChangeDirection();
+                    break;
+                case Keys.A:
+                    gauche = false;
                     _player.ChangeDirection();
                     break;
             }
         }
     }
+
 }

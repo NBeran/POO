@@ -45,6 +45,7 @@
             Name = "AirSpace";
             Text = "AirSpace";
             KeyDown += AirSpace_KeyDown;
+            KeyUp += AirSpace_KeyUp;
             ResumeLayout(false);
 
         }
