@@ -17,6 +17,7 @@ namespace Drones
         public int live = 3;
         public int playerheight = 50;
         public int speed = 10;
+        private int cooldawn = 0;
         List<ProjectilJoueur> attaques = new List<ProjectilJoueur>();
         List<ProjectilJoueur> aSupprimer = new List<ProjectilJoueur>();
         // Déplacement vertical
@@ -37,6 +38,7 @@ namespace Drones
         // que 'interval' millisecondes se sont écoulées
         public void Update(int interval)
         {
+            cooldawn++;
             x += speed_x;
             y += speed_y;
             charge--;
@@ -146,8 +148,11 @@ namespace Drones
 
         public void shoot()
         {
-            
-            attaques.Add(new ProjectilJoueur(this.x + 9, this.y));
+            if (cooldawn >= 6)
+            {
+                attaques.Add(new ProjectilJoueur(this.x + 9, this.y));
+                cooldawn = 0;
+            }
         }
 
 

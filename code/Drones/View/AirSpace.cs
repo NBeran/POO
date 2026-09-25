@@ -64,6 +64,10 @@ namespace Drones
         {
             switch (e.KeyCode)
             {
+                case Keys.Space:
+                    shoot = true;
+                    _player.shoot();
+                    break;
                 case Keys.W:
                     haut = true;
                     _player.ChangeDirection();
@@ -80,10 +84,7 @@ namespace Drones
                     gauche = true;
                     _player.ChangeDirection();
                     break;
-                case Keys.Space:
-                    shoot = true;
-                    _player.shoot();
-                    break;
+
 
             }
         }

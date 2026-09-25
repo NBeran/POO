@@ -22,7 +22,7 @@ namespace Drones.Model
         {
             this.x = x;
             this.y = y;
-            this.speed = 20;
+            this.speed = 30;
         }
 
 
