@@ -1,4 +1,5 @@
 using Drones.Helpers;
+using Drones.Model;
 
 namespace Drones
 {
@@ -13,6 +14,7 @@ namespace Drones
         public static bool gauche = false;
         public static bool haut = false;
         public static bool bas = false;
+        public static bool shoot = false;
         
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
         private Drone _player;
@@ -41,7 +43,7 @@ namespace Drones
             airspace.Graphics.Clear(Color.AliceBlue);
 
             _player.Render(airspace);
-
+            
             airspace.Render();
         }
 
@@ -78,6 +80,11 @@ namespace Drones
                     gauche = true;
                     _player.ChangeDirection();
                     break;
+                case Keys.Space:
+                    shoot = true;
+                    _player.shoot();
+                    break;
+
             }
         }
         private void AirSpace_KeyUp(object sender, KeyEventArgs e)
@@ -99,6 +106,10 @@ namespace Drones
                 case Keys.A:
                     gauche = false;
                     _player.ChangeDirection();
+                    break;
+                case Keys.Space:
+                    shoot = false;
+                    _player.shoot();
                     break;
             }
         }

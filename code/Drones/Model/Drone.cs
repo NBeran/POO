@@ -1,5 +1,7 @@
 ﻿using Drones.Helpers;
+using Drones.Model;
 using Drones.Properties;
+using System.Reflection.Metadata;
 
 namespace Drones
 {
@@ -15,6 +17,8 @@ namespace Drones
         public int live = 3;
         public int playerheight = 50;
         public int speed = 10;
+        List<ProjectilJoueur> attaques = new List<ProjectilJoueur>();
+        List<ProjectilJoueur> aSupprimer = new List<ProjectilJoueur>();
         // Déplacement vertical
         private Random _alea = new Random();
 
@@ -36,6 +40,21 @@ namespace Drones
             x += speed_x;
             y += speed_y;
             charge--;
+            foreach (ProjectilJoueur a in attaques)
+            {
+                try
+                {
+                    a.update(interval);
+                }
+                catch
+                {
+                    aSupprimer.Add(a);
+                }
+            }
+            foreach (ProjectilJoueur a in aSupprimer)
+            {
+                attaques.Remove(a);
+            }
         }
 
         // Choisit une nouvelle vitesse aléatoirement
@@ -112,6 +131,10 @@ namespace Drones
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
+            foreach (ProjectilJoueur a in attaques)
+            {
+                a.render(drawingSpace);
+            }
             drawingSpace.Graphics.DrawImage(Resources.drone, x, y, 50, 50);
         }
 
@@ -119,6 +142,12 @@ namespace Drones
         public override string ToString()
         {
             return $"{name} ({((int)((double)charge / 1000 * 100)).ToString()}%)";
+        }
+
+        public void shoot()
+        {
+            
+            attaques.Add(new ProjectilJoueur(this.x + 9, this.y));
         }
 
 
