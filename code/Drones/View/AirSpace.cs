@@ -1,3 +1,5 @@
+using Drones.Helpers;
+
 namespace Drones
 {
     // La classe AirSpace représente le territoire au dessus duquel les drones peuvent voler
@@ -6,8 +8,7 @@ namespace Drones
 
     public partial class AirSpace : Form
     {
-        public static readonly int WIDTH = 1200;        // Dimensions of the airspace
-        public static readonly int HEIGHT = 600;
+
         public static bool droite = false;
         public static bool gauche = false;
         public static bool haut = false;
@@ -24,7 +25,7 @@ namespace Drones
         public AirSpace(Drone player)
         {
             InitializeComponent();
-            ClientSize = new Size(WIDTH, HEIGHT);
+            ClientSize = new Size(Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
 
             // Gets a reference to the current BufferedGraphicsContext
             currentContext = BufferedGraphicsManager.Current;

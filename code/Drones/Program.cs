@@ -1,3 +1,5 @@
+using Drones.Helpers;
+
 namespace Drones
 {
     internal static class Program
@@ -13,7 +15,7 @@ namespace Drones
             ApplicationConfiguration.Initialize();
 
             // Démarrage
-            Application.Run(new AirSpace(new Drone(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Joe")));
+            Application.Run(new AirSpace(new Drone(Config.AIRSPACEWIDTH / 2, Config.AIRSPACEHEIGHT / 2, "Joe")));
         }
     }
 }

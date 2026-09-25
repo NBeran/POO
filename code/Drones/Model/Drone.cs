@@ -43,14 +43,14 @@ namespace Drones
         {
             if (AirSpace.bas )
             {
-                if (y < AirSpace.HEIGHT - playerheight - speed)
+                if (y < Config.AIRSPACEHEIGHT - playerheight - speed)
                 {
                     speed_y = speed;
                 }
                 else
                 {
                     speed_y = 0;
-                    y = AirSpace.HEIGHT - playerheight;
+                    y = Config.AIRSPACEHEIGHT - playerheight;
                 }
             }
             else if (AirSpace.haut )
@@ -83,14 +83,14 @@ namespace Drones
             }
             else if (AirSpace.droite )
             {
-                if (x < AirSpace.WIDTH - playerheight - speed)
+                if (x < Config.AIRSPACEWIDTH - playerheight - speed)
                 {
                     speed_x = speed;
                 }
                 else
                 {
                     speed_x = 0;
-                    x = AirSpace.WIDTH - playerheight ;
+                    x = Config.AIRSPACEWIDTH - playerheight ;
                 }
             }
             else
