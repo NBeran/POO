@@ -14,7 +14,7 @@ namespace Drones
         public int speed_y;
         public int live = 3;
         public int playerheight = 50;
-        public int speed = 20;
+        public int speed = 10;
         // Déplacement vertical
         private Random _alea = new Random();
 
@@ -41,25 +41,57 @@ namespace Drones
         // Choisit une nouvelle vitesse aléatoirement
         public void ChangeDirection()
         {
-            if (AirSpace.bas && y < AirSpace.HEIGHT - playerheight - speed)
+            if (AirSpace.bas )
             {
-                speed_y = speed;
+                if (y < AirSpace.HEIGHT - playerheight - speed)
+                {
+                    speed_y = speed;
+                }
+                else
+                {
+                    speed_y = 0;
+                    y = AirSpace.HEIGHT - playerheight;
+                }
             }
-            else if (AirSpace.haut && y >= 0)
+            else if (AirSpace.haut )
             {
-                speed_y = -speed;
+                if (y > 0 )
+                {
+                    speed_y = -speed;
+                }
+                else
+                {
+                    speed_y = 0;
+                    y = 0 ;
+                }
             }
             else
             {
                 speed_y = 0;
             }
-            if (AirSpace.gauche && x >= 0)
+            if (AirSpace.gauche )
             {
-                speed_x = -speed;
+                if (x > 0)
+                {
+                    speed_x = -speed;
+                }
+                else
+                {
+                    speed_x = 0;
+                    x = 0 ;
+                }
             }
-            else if (AirSpace.droite && x < AirSpace.WIDTH - playerheight)
+            else if (AirSpace.droite )
             {
-                speed_x = speed;
+                if (x < AirSpace.WIDTH - playerheight - speed)
+                {
+                    speed_x = speed;
+                }
+                else
+                {
+                    speed_x = 0;
+                    x = AirSpace.WIDTH - playerheight ;
+                }
             }
             else
             {
