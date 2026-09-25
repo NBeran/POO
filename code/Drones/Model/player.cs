@@ -1,123 +1,49 @@
 ﻿using Drones.Properties;
 using player.Helpers;
 using player.Model;
+using System.Runtime.Intrinsics.Arm;
 
 namespace player
 {
     // Cette partie de la classe Drone définit ce qu'est un drone par un modèle numérique
     public class Drone
     {
-        public int charge;                            // La charge actuelle de la batterie
         public string name;                           // Un nom
         public int x;                                 // Position en X depuis la gauche de l'espace aérien
         public int y;                                 // Position en Y depuis le haut de l'espace aérien
-        public int speed_x;                           // Déplacement horizontal
-        public int speed_y;
+        public int speed_x;
+        public int speed_y;                             // Déplacement horizontal
         public int live = 3;
         public int playerheight = 75;
         public int speed = 10;
         private int cooldawn = 0;
-        List<PlayerAtk> attaques = new List<PlayerAtk>();
-        List<PlayerAtk> aSupprimer = new List<PlayerAtk>();
+
         // Déplacement vertical
         private Random _alea = new Random();
 
         // Constructeur
         public Drone(int x, int y, string name)
         {
-            Random alea = new Random();
             this.x = x;
             this.y = y;
             this.name = name;
-            charge = alea.Next(1000); // La charge initiale de la batterie est choisie aléatoirement
-            ChangeDirection();
         }
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update(int interval)
+        public void Update(int interval, bool haut, bool bas, bool gauche, bool droite)
         {
             cooldawn++;
-            x += speed_x;
-            y += speed_y;
-            charge--;
-            foreach (PlayerAtk a in attaques)
-            {
-                try
-                {
-                    a.update(interval);
-                }
-                catch
-                {
-                    aSupprimer.Add(a);
-                }
-            }
-            foreach (PlayerAtk a in aSupprimer)
-            {
-                attaques.Remove(a);
-            }
+            x = x + (droite ? speed : 0);
+            x = x - (gauche ? speed : 0);
+            y = y + (bas ? speed : 0);
+            y = y - (haut ? speed : 0);
+            verifiyborder();
+
         }
 
         // Choisit une nouvelle vitesse aléatoirement
-        public void ChangeDirection()
-        {
-            if (GameSpace.bas )
-            {
-                if (y < Config.AIRSPACEHEIGHT - playerheight - speed)
-                {
-                    speed_y = speed;
-                }
-                else
-                {
-                    speed_y = 0;
-                    y = Config.AIRSPACEHEIGHT - playerheight;
-                }
-            }
-            else if (GameSpace.haut )
-            {
-                if (y > 0 )
-                {
-                    speed_y = -speed;
-                }
-                else
-                {
-                    speed_y = 0;
-                    y = 0 ;
-                }
-            }
-            else
-            {
-                speed_y = 0;
-            }
-            if (GameSpace.gauche )
-            {
-                if (x > 0)
-                {
-                    speed_x = -speed;
-                }
-                else
-                {
-                    speed_x = 0;
-                    x = 0 ;
-                }
-            }
-            else if (GameSpace.droite )
-            {
-                if (x < Config.AIRSPACEWIDTH - playerheight - speed)
-                {
-                    speed_x = speed;
-                }
-                else
-                {
-                    speed_x = 0;
-                    x = Config.AIRSPACEWIDTH - playerheight ;
-                }
-            }
-            else
-            {
-                speed_x = 0;
-            }
-        }
+
 
         /// //////////////////////////////////////////////////////////////////////////////
         //  
@@ -132,28 +58,24 @@ namespace player
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            foreach (PlayerAtk a in attaques)
-            {
-                a.render(drawingSpace);
-            }
+
             drawingSpace.Graphics.DrawImage(Resources.player, x, y, playerheight, playerheight);
         }
 
         // De manière textuelle
         public override string ToString()
         {
-            return $"{name} ({((int)((double)charge / 1000 * 100)).ToString()}%)";
+            return $"{name}";
         }
 
-        public void shoot()
+
+
+        public void verifiyborder()
         {
-            if (cooldawn >= 6)
-            {
-                attaques.Add(new PlayerAtk(this.x + 9, this.y));
-                cooldawn = 0;
-            }
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x > Config.AIRSPACEWIDTH - playerheight) x = Config.AIRSPACEWIDTH - playerheight;
+            if (y > Config.AIRSPACEHEIGHT - playerheight) y = Config.AIRSPACEHEIGHT - playerheight;
         }
-
-
     }
 }

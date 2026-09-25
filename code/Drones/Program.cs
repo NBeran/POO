@@ -17,5 +17,11 @@ namespace player
             // Démarrage
             Application.Run(new GameSpace(new Drone(Config.AIRSPACEWIDTH / 2, Config.AIRSPACEHEIGHT / 2, "Joe")));
         }
+
+
+        static void newwave()
+        {
+
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace player.Model
         }
 
 
-        public void render (BufferedGraphics drawingSpace)   
+        public void Render (BufferedGraphics drawingSpace)   
         {
             drawingSpace.Graphics.DrawImage(Resources.attaque, x, y, 40, 70);
         }

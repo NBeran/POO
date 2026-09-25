@@ -9,13 +9,13 @@ namespace player
 
     public partial class GameSpace : Form
     {
-
+        private int cooldawn = 0;
         public static bool droite = false;
         public static bool gauche = false;
         public static bool haut = false;
         public static bool bas = false;
-        public static bool shoot = false;
-        
+        List<PlayerAtk> attaques = new List<PlayerAtk>();
+        List<PlayerAtk> aSupprimer = new List<PlayerAtk>();
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
         private Drone _player;
 
@@ -45,17 +45,40 @@ namespace player
             _player.Render(airspace);
             
             airspace.Render();
+            foreach (PlayerAtk atk in attaques)
+            {
+
+                atk.Render(airspace);
+            }
+            airspace.Render();
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
-            _player.Update(interval);
+            cooldawn++;
+            _player.Update(interval, haut, bas, gauche, droite);
+            foreach (PlayerAtk a in attaques)
+            {
+                try
+                {
+                    a.update(interval);
+                }
+                catch
+                {
+                    aSupprimer.Add(a);
+                }
+            }
+            foreach (PlayerAtk a in aSupprimer)
+            {
+                attaques.Remove(a);
+            }
         }
 
         // Méthode appelée à chaque frame
         private void NewFrame(object sender, EventArgs e)
         {
+            
             this.Update(ticker.Interval);
             this.Render();
         }
@@ -65,24 +88,19 @@ namespace player
             switch (e.KeyCode)
             {
                 case Keys.Space:
-                    shoot = true;
-                    _player.shoot();
+                       shoot();
                     break;
                 case Keys.W:
                     haut = true;
-                    _player.ChangeDirection();
                     break;
                 case Keys.S:
                     bas = true;
-                    _player.ChangeDirection();
                     break;
                 case Keys.D:
                     droite = true;
-                    _player.ChangeDirection();
                     break;
                 case Keys.A:
                     gauche = true;
-                    _player.ChangeDirection();
                     break;
 
 
@@ -94,24 +112,26 @@ namespace player
             {
                 case Keys.W:
                     haut = false;
-                    _player.ChangeDirection();
                     break;
                 case Keys.S:
                     bas = false;
-                    _player.ChangeDirection();
                     break;
                 case Keys.D:
                     droite = false;
-                    _player.ChangeDirection();
                     break;
                 case Keys.A:
                     gauche = false;
-                    _player.ChangeDirection();
                     break;
-                case Keys.Space:
-                    shoot = false;
-                    _player.shoot();
-                    break;
+
+            }
+        }
+        public void shoot()
+        {
+            if (cooldawn >= 6)
+            {
+                Console.WriteLine("appuyé");
+                attaques.Add(new PlayerAtk(_player.x, _player.y));
+                cooldawn = 0;
             }
         }
     }
