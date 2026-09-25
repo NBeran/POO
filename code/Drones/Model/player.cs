@@ -1,9 +1,8 @@
-﻿using Drones.Helpers;
-using Drones.Model;
-using Drones.Properties;
-using System.Reflection.Metadata;
+﻿using Drones.Properties;
+using player.Helpers;
+using player.Model;
 
-namespace Drones
+namespace player
 {
     // Cette partie de la classe Drone définit ce qu'est un drone par un modèle numérique
     public class Drone
@@ -62,7 +61,7 @@ namespace Drones
         // Choisit une nouvelle vitesse aléatoirement
         public void ChangeDirection()
         {
-            if (AirSpace.bas )
+            if (GameSpace.bas )
             {
                 if (y < Config.AIRSPACEHEIGHT - playerheight - speed)
                 {
@@ -74,7 +73,7 @@ namespace Drones
                     y = Config.AIRSPACEHEIGHT - playerheight;
                 }
             }
-            else if (AirSpace.haut )
+            else if (GameSpace.haut )
             {
                 if (y > 0 )
                 {
@@ -90,7 +89,7 @@ namespace Drones
             {
                 speed_y = 0;
             }
-            if (AirSpace.gauche )
+            if (GameSpace.gauche )
             {
                 if (x > 0)
                 {
@@ -102,7 +101,7 @@ namespace Drones
                     x = 0 ;
                 }
             }
-            else if (AirSpace.droite )
+            else if (GameSpace.droite )
             {
                 if (x < Config.AIRSPACEWIDTH - playerheight - speed)
                 {
@@ -137,7 +136,7 @@ namespace Drones
             {
                 a.render(drawingSpace);
             }
-            drawingSpace.Graphics.DrawImage(Resources.drone, x, y, 50, 50);
+            drawingSpace.Graphics.DrawImage(Resources.player, x, y, 75, 75);
         }
 
         // De manière textuelle

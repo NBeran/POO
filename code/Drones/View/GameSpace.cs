@@ -1,13 +1,13 @@
-using Drones.Helpers;
-using Drones.Model;
+using player.Helpers;
+using player.Model;
 
-namespace Drones
+namespace player
 {
-    // La classe AirSpace représente le territoire au dessus duquel les drones peuvent voler
+    // La classe GameSpace représente le territoire au dessus duquel les drones peuvent voler
     // Il s'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
     // Il n'y a donc pas de notion d'altitude qui intervient
 
-    public partial class AirSpace : Form
+    public partial class GameSpace : Form
     {
 
         public static bool droite = false;
@@ -24,7 +24,7 @@ namespace Drones
 
 
         // Initialisation de l'espace aérien avec un certain nombre de drones
-        public AirSpace(Drone player)
+        public GameSpace(Drone player)
         {
             InitializeComponent();
             ClientSize = new Size(Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);

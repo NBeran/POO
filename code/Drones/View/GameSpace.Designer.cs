@@ -1,6 +1,6 @@
-﻿namespace Drones
+﻿namespace player
 {
-    partial class AirSpace
+    partial class GameSpace
     {
         /// <summary>
         ///  Required designer variable.
@@ -37,13 +37,13 @@
             ticker.Enabled = true;
             ticker.Tick += NewFrame;
             // 
-            // AirSpace
+            // GameSpace
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 261);
-            Name = "AirSpace";
-            Text = "AirSpace";
+            Name = "GameSpace";
+            Text = "GameSpace";
             KeyDown += AirSpace_KeyDown;
             KeyUp += AirSpace_KeyUp;
             ResumeLayout(false);

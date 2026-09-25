@@ -1,12 +1,6 @@
 ﻿using Drones.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Drones.Model
+namespace player.Model
 {
     internal class ProjectilJoueur
     {
@@ -28,7 +22,7 @@ namespace Drones.Model
 
         public void render (BufferedGraphics drawingSpace)   
         {
-            drawingSpace.Graphics.DrawImage(Resources.attaque, x, y, 30, 60);
+            drawingSpace.Graphics.DrawImage(Resources.attaque, x, y, 40, 70);
         }
         public void update (int interval)
         {

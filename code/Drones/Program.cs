@@ -1,6 +1,6 @@
-using Drones.Helpers;
+using player.Helpers;
 
-namespace Drones
+namespace player
 {
     internal static class Program
     {
@@ -15,7 +15,7 @@ namespace Drones
             ApplicationConfiguration.Initialize();
 
             // Démarrage
-            Application.Run(new AirSpace(new Drone(Config.AIRSPACEWIDTH / 2, Config.AIRSPACEHEIGHT / 2, "Joe")));
+            Application.Run(new GameSpace(new Drone(Config.AIRSPACEWIDTH / 2, Config.AIRSPACEHEIGHT / 2, "Joe")));
         }
     }
 }
