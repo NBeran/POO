@@ -2,7 +2,7 @@
 
 namespace player.Model
 {
-    internal class ProjectilJoueur
+    internal class PlayerAtk
     {
         private int x;
         private int y;
@@ -12,7 +12,7 @@ namespace player.Model
         public int Y { get => y; private set => y = value; }
         public int Speed { get => speed; private set => speed = value; }
 
-        public ProjectilJoueur(int x, int y)
+        public PlayerAtk(int x, int y)
         {
             this.x = x;
             this.y = y;

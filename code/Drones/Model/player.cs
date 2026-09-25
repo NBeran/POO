@@ -14,11 +14,11 @@ namespace player
         public int speed_x;                           // Déplacement horizontal
         public int speed_y;
         public int live = 3;
-        public int playerheight = 50;
+        public int playerheight = 75;
         public int speed = 10;
         private int cooldawn = 0;
-        List<ProjectilJoueur> attaques = new List<ProjectilJoueur>();
-        List<ProjectilJoueur> aSupprimer = new List<ProjectilJoueur>();
+        List<PlayerAtk> attaques = new List<PlayerAtk>();
+        List<PlayerAtk> aSupprimer = new List<PlayerAtk>();
         // Déplacement vertical
         private Random _alea = new Random();
 
@@ -41,7 +41,7 @@ namespace player
             x += speed_x;
             y += speed_y;
             charge--;
-            foreach (ProjectilJoueur a in attaques)
+            foreach (PlayerAtk a in attaques)
             {
                 try
                 {
@@ -52,7 +52,7 @@ namespace player
                     aSupprimer.Add(a);
                 }
             }
-            foreach (ProjectilJoueur a in aSupprimer)
+            foreach (PlayerAtk a in aSupprimer)
             {
                 attaques.Remove(a);
             }
@@ -132,11 +132,11 @@ namespace player
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            foreach (ProjectilJoueur a in attaques)
+            foreach (PlayerAtk a in attaques)
             {
                 a.render(drawingSpace);
             }
-            drawingSpace.Graphics.DrawImage(Resources.player, x, y, 75, 75);
+            drawingSpace.Graphics.DrawImage(Resources.player, x, y, playerheight, playerheight);
         }
 
         // De manière textuelle
@@ -149,7 +149,7 @@ namespace player
         {
             if (cooldawn >= 6)
             {
-                attaques.Add(new ProjectilJoueur(this.x + 9, this.y));
+                attaques.Add(new PlayerAtk(this.x + 9, this.y));
                 cooldawn = 0;
             }
         }
