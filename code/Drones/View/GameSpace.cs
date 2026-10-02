@@ -6,7 +6,7 @@ using player.Model;
 namespace player
 {
     // La classe GameSpace représente le territoire au dessus duquel les drones peuvent voler
-    // Il s'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
+    // Il d'agit d'un formulaire (une fenêtre) qui montre une vue 2D depuis en dessus
     // Il n'y a donc pas de notion d'altitude qui intervient
 
     public partial class GameSpace : Form
@@ -19,12 +19,17 @@ namespace player
         public static bool bas = false;
         private static int score = 0;
         private static skeleton shooting;
+
         List<PlayerAtk> attaques = new List<PlayerAtk>();
         List<PlayerAtk> atkdelete = new List<PlayerAtk>();
+
         List<skeleton> skeletonwave = new List<skeleton>();
         List<skeleton> skeletondelete = new List<skeleton>();
         List<skeletonatk> skeletonatks = new List<skeletonatk>();
         List<skeletonatk> skeletonatksdelete = new List<skeletonatk>();
+
+        List<demon> demons = new List<demon>();
+        List<demon> demondelete = new List<demon>();
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
         private Drone _player;
 
@@ -46,6 +51,7 @@ namespace player
             // dimensions the same size as the drawing surface of the form.
             airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
+            demons.AddRange(new[] { new demon(0, 150), new demon(100, 150), new demon(200, 150), new demon(300, 150), new demon(400, 150) });
             skeletonwave.AddRange(new[] { new skeleton(0, 50), new skeleton(100, 50), new skeleton(200, 50), new skeleton(300, 50), new skeleton(400, 50) });
         }
 
@@ -69,6 +75,10 @@ namespace player
             foreach (skeletonatk atk in skeletonatks)
             {
                 atk.Render(airspace);
+            }
+            foreach (demon demon in demons)
+            {
+                demon.Render(airspace);
             }
             airspace.Render();
         }
@@ -97,10 +107,7 @@ namespace player
                     atkdelete.Add(a);
                 }
             }
-            foreach (PlayerAtk a in atkdelete)
-            {
-                attaques.Remove(a);
-            }
+
             foreach(skeleton skeleton in skeletonwave)
             {
                 skeleton.update(interval);
@@ -116,14 +123,28 @@ namespace player
                     skeletonatksdelete.Add(skeletonatk);
                 }
             }
-            foreach (skeletonatk s in skeletonatksdelete)
+
+            foreach (demon demon in demons)
             {
-                skeletonatks.Remove(s);
+                demon.update(interval);
             }
+
             checkhit();
             foreach (skeleton a in skeletondelete)
             {
                 skeletonwave.Remove(a);
+            }
+            foreach (demon a in demondelete)
+            {
+                demons.Remove(a);
+            }
+            foreach (skeletonatk s in skeletonatksdelete)
+            {
+                skeletonatks.Remove(s);
+            }
+            foreach (PlayerAtk a in atkdelete)
+            {
+                attaques.Remove(a);
             }
         }
 
@@ -196,6 +217,20 @@ namespace player
                         score += skeleton.Score;
                         skeletondelete.Add(s);
                         atkdelete.Add(p);
+                    }
+                }
+                foreach (demon d in demons)
+                {
+                    if (p.X + PlayerAtk.Width >= d.X && p.X <= d.X + skeleton.Height && p.Y + PlayerAtk.Height >= d.Y && p.Y <= d.Y + skeleton.Height)
+                    {
+                        d.Hp--;
+                        atkdelete.Add(p);
+                        if (d.Hp <= 0)
+                        {
+                            score += demon.Score;
+                            demondelete.Add(d);
+                        }
+                        
                     }
                 }
                 foreach (skeletonatk s in skeletonatks)
