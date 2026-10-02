@@ -12,13 +12,15 @@ namespace player
     public partial class GameSpace : Form
     {
         private int skeletoncooldawn = 0;
+        private int demoncooldown = 0;
         private int cooldawn = 0;
         public static bool droite = false;
         public static bool gauche = false;
         public static bool haut = false;
         public static bool bas = false;
         private static int score = 0;
-        private static skeleton shooting;
+        private static skeleton skeletonshooting;
+        private static demon demonshooting;
 
         List<PlayerAtk> attaques = new List<PlayerAtk>();
         List<PlayerAtk> atkdelete = new List<PlayerAtk>();
@@ -30,6 +32,8 @@ namespace player
 
         List<demon> demons = new List<demon>();
         List<demon> demondelete = new List<demon>();
+        List<demonatk>demonatks = new List<demonatk>();
+        List<demonatk>demonatkdelete = new List<demonatk>();
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
         private Drone _player;
 
@@ -51,8 +55,8 @@ namespace player
             // dimensions the same size as the drawing surface of the form.
             airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
-            demons.AddRange(new[] { new demon(0, 150), new demon(100, 150), new demon(200, 150), new demon(300, 150), new demon(400, 150) });
-            skeletonwave.AddRange(new[] { new skeleton(0, 50), new skeleton(100, 50), new skeleton(200, 50), new skeleton(300, 50), new skeleton(400, 50) });
+            demons.AddRange(new[] { new demon(0, 100), new demon(100, 100), new demon(200, 100), new demon(300, 100), new demon(400, 100) });
+            skeletonwave.AddRange(new[] { new skeleton(0, 0), new skeleton(100, 0), new skeleton(200, 0), new skeleton(300, 0), new skeleton(400, 0) });
         }
 
         // Affichage de la situation actuelle
@@ -80,6 +84,10 @@ namespace player
             {
                 demon.Render(airspace);
             }
+            foreach (demonatk atk in demonatks)
+            {
+                atk.Render(airspace);
+            }
             airspace.Render();
         }
 
@@ -88,12 +96,20 @@ namespace player
         {
             cooldawn++;
             skeletoncooldawn++;
-            if (skeletoncooldawn >= 20 && skeletonwave.Count >= 1)
+            demoncooldown++;
+            if (skeletoncooldawn >= 15 && skeletonwave.Count >= 1)
             {
                 skeletoncooldawn = 0;
-                shooting = randomhelper.rndskeleton (Skeletonwave);
-                skeletonatk atk = new skeletonatk(shooting.X, shooting.Y);
+                skeletonshooting = randomhelper.rndskeleton (Skeletonwave);
+                skeletonatk atk = new skeletonatk(skeletonshooting.X, skeletonshooting.Y);
                 skeletonatks.Add(atk);
+            }
+            if (demoncooldown >= 20 && demons.Count >= 1)
+            {
+                demoncooldown = 0;
+                demonshooting = randomhelper.rnddemon(demons);
+                demonatk atk = new demonatk(demonshooting.X, demonshooting.Y);
+                demonatks.Add(atk);
             }
             _player.Update(interval, haut, bas, gauche, droite);
             foreach (PlayerAtk a in attaques)
@@ -128,6 +144,17 @@ namespace player
             {
                 demon.update(interval);
             }
+            foreach (demonatk demonatk in demonatks)
+            {
+                try
+                {
+                    demonatk.update(interval);
+                }
+                catch
+                {
+                    demonatkdelete.Add(demonatk);
+                }
+            }
 
             checkhit();
             foreach (skeleton a in skeletondelete)
@@ -145,6 +172,10 @@ namespace player
             foreach (PlayerAtk a in atkdelete)
             {
                 attaques.Remove(a);
+            }
+            foreach (demonatk s in demonatkdelete)
+            {
+                demonatks.Remove(s);
             }
         }
 
@@ -242,6 +273,15 @@ namespace player
 
                     }
                 }
+                foreach (demonatk d in demonatks)
+                {
+                    if (p.X + PlayerAtk.Width >= d.X && p.X <= d.X + demonatk.Height && p.Y + PlayerAtk.Height >= d.Y && p.Y <= d.Y + demonatk.Height)
+                    {
+                        demonatkdelete.Add(d);
+                        atkdelete.Add(p);
+
+                    }
+                }
             }
             foreach (skeletonatk s in skeletonatks)
             {
@@ -251,6 +291,23 @@ namespace player
                     if (_player.live >= 1)
                     {
                         _player.live -= 1;
+                    }
+                }
+            }
+            foreach (demonatk d in demonatks)
+            {
+                if (_player.x + demonatk.Width >= d.X && _player.x <= d.X + demonatk.Height && _player.y + PlayerAtk.Height >= d.Y && _player.y <= d.Y + demonatk.Height)
+                {
+                    demonatkdelete.Add(d);
+                    if (_player.live >= 1)
+                    {
+                        _player.live -= 1;
+                    }
+                    if (_player.live == 0)
+                    {
+                        
+                        Console.WriteLine("tu est mort !");
+                        Console.WriteLine("meilleur score : " + score);
                     }
                 }
             }

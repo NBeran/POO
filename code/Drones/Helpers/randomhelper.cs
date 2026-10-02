@@ -11,5 +11,10 @@ namespace Drones.Helpers
             int x = random.Next(i.Count);
             return i.ElementAt(x);
         }
+        public static demon rnddemon(List<demon> i)
+        {
+            int x = random.Next(i.Count);
+            return i.ElementAt(x);
+        }
     }
 }
