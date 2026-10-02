@@ -14,8 +14,8 @@ namespace player
         public int speed_x;
         public int speed_y;                             // Déplacement horizontal
         public int live = 3;
-        public int playerheight = 75;
-        public int speed = 10;
+        public int playerheight = 85;
+        public int speed = 15;
         private int cooldawn = 0;
 
         // Déplacement vertical
