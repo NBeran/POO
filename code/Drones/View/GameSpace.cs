@@ -2,6 +2,7 @@ using Drones.Helpers;
 using Drones.Model;
 using player.Helpers;
 using player.Model;
+using System.Collections.Generic;
 
 namespace player
 {
@@ -55,8 +56,15 @@ namespace player
             // dimensions the same size as the drawing surface of the form.
             airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
-            demons.AddRange(new[] { new demon(0, 100), new demon(100, 100), new demon(200, 100), new demon(300, 100), new demon(400, 100) });
-            skeletonwave.AddRange(new[] { new skeleton(0, 0), new skeleton(100, 0), new skeleton(200, 0), new skeleton(300, 0), new skeleton(400, 0) });
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 100)
+            {
+                demons.AddRange(new[] { new demon(i, 100) });
+            }
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 100)
+            {
+                skeletonwave.AddRange(new[] { new skeleton(i, 0) });
+            }
+           
         }
 
         // Affichage de la situation actuelle
