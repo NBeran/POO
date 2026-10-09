@@ -35,6 +35,9 @@ namespace player
         List<demon> demondelete = new List<demon>();
         List<demonatk>demonatks = new List<demonatk>();
         List<demonatk>demonatkdelete = new List<demonatk>();
+
+        List<bone_pile> defense = new List<bone_pile>();
+        List<bone_pile> defenseadelete = new List<bone_pile>();
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
         private Drone _player;
 
@@ -42,6 +45,8 @@ namespace player
         BufferedGraphics airspace;
 
         internal List<skeleton> Skeletonwave { get => skeletonwave; set => skeletonwave = value; }
+        public static int Score { get => score; set => score = value; }
+
 
 
         // Initialisation de l'espace aérien avec un certain nombre de drones
@@ -58,11 +63,15 @@ namespace player
             this._player = player;
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 100)
             {
-                demons.AddRange(new[] { new demon(i, 100) });
+                demons.Add( new demon(i, 100));
             }
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 100)
             {
-                skeletonwave.AddRange(new[] { new skeleton(i, 0) });
+                skeletonwave.Add(new skeleton(i, 0) );
+            }
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
+            {
+                defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
             }
            
         }
@@ -70,7 +79,7 @@ namespace player
         // Affichage de la situation actuelle
         private void Render()
         {
-            airspace.Graphics.Clear(Color.AliceBlue);
+            airspace.Graphics.Clear(Color.IndianRed);
             
             airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, 5);
             airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, Config.AIRSPACEHEIGHT - 30);
@@ -95,6 +104,10 @@ namespace player
             foreach (demonatk atk in demonatks)
             {
                 atk.Render(airspace);
+            }
+            foreach (bone_pile bone in defense)
+            {
+                bone.Render(airspace);
             }
             airspace.Render();
         }
@@ -184,6 +197,10 @@ namespace player
             foreach (demonatk s in demonatkdelete)
             {
                 demonatks.Remove(s);
+            }
+            foreach (bone_pile b in defenseadelete)
+            {
+                defense.Remove(b);
             }
         }
 
@@ -290,6 +307,21 @@ namespace player
 
                     }
                 }
+                foreach (bone_pile b in defense)
+                {
+                    if (p.X + PlayerAtk.Width >= b.x && p.X <= b.x + b.width && p.Y + PlayerAtk.Height >= b.y && p.Y <= b.y + b.height)
+                    {
+                        try
+                        {
+                            b.hit(true);
+                        }
+                        catch
+                        {
+                            defenseadelete.Add(b);
+                        }
+                        atkdelete.Add(p);
+                    }
+                }
             }
             foreach (skeletonatk s in skeletonatks)
             {
@@ -299,6 +331,27 @@ namespace player
                     if (_player.live >= 1)
                     {
                         _player.live -= 1;
+                    }
+                    if (_player.live == 0)
+                    {
+
+                        Console.WriteLine("tu est mort !");
+                        Console.WriteLine("meilleur score : " + score);
+                    }
+                }
+                foreach (bone_pile b in defense)
+                {
+                    if (s.X + skeletonatk.Width >= b.x && s.X <= b.x + b.width && s.Y + skeletonatk.Height >= b.y && s.Y <= b.y + b.height)
+                    {
+                        try
+                        {
+                            b.hit(false);
+                        }
+                        catch
+                        {
+                            defenseadelete.Add(b);
+                        }
+                        skeletonatksdelete.Add(s);
                     }
                 }
             }
@@ -316,6 +369,21 @@ namespace player
                         
                         Console.WriteLine("tu est mort !");
                         Console.WriteLine("meilleur score : " + score);
+                    }
+                }
+                foreach (bone_pile b in defense)
+                {
+                    if (d.X + demonatk.Width >= b.x && d.X <= b.x + b.width && d.Y + demonatk.Height >= b.y && d.Y <= b.y + b.height)
+                    {
+                        try
+                        {
+                            b.hit(false);
+                        }
+                        catch
+                        {
+                            defenseadelete.Add(b);
+                        }
+                        demonatkdelete.Add(d);
                     }
                 }
             }

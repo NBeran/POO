@@ -10,5 +10,6 @@ namespace player.Helpers
     {
         public static readonly int AIRSPACEWIDTH = 800;        // Dimensions of the airspace
         public static readonly int AIRSPACEHEIGHT = 900;
+        public static readonly int limitheight = AIRSPACEHEIGHT - (AIRSPACEHEIGHT / 5 );
     }
 }

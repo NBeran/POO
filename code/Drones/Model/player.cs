@@ -73,7 +73,7 @@ namespace player
         public void verifiyborder()
         {
             if (x < 0) x = 0;
-            if (y < 0) y = 0;
+            if (y < Config.limitheight - playerheight) y = Config.limitheight - playerheight;
             if (x > Config.AIRSPACEWIDTH - playerheight) x = Config.AIRSPACEWIDTH - playerheight;
             if (y > Config.AIRSPACEHEIGHT - playerheight) y = Config.AIRSPACEHEIGHT - playerheight;
         }
