@@ -77,5 +77,13 @@ namespace player
             if (x > Config.AIRSPACEWIDTH - playerheight) x = Config.AIRSPACEWIDTH - playerheight;
             if (y > Config.AIRSPACEHEIGHT - playerheight) y = Config.AIRSPACEHEIGHT - playerheight;
         }
+
+        public void die(BufferedGraphics airspace, int interval)
+        {
+            
+            while (true) {
+                
+            }
+        }
     }
 }

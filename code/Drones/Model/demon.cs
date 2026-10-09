@@ -1,4 +1,6 @@
 ﻿using Drones.Properties;
+using player;
+using player.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,22 @@ namespace Drones.Model
         }
         public void update(int interval)
         {
-            y += speed;
+            
+            if (y + height >= Config.limitheight)
+           {
+                 if (GameSpace.Defense.Count >= 1)
+                {
+                    GameSpace.Defense[0].hit(false);
+                }
+                else
+                {
+                    throw new Exception("le joueur s'est fait tué");
+                }
+           }
+            else
+            {
+                y += speed;
+            }
         }
     }
 }

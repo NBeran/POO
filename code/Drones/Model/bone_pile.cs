@@ -38,9 +38,9 @@ namespace Drones.Model
         public void hit(bool player)
         {
             hitcounter++;
-            height -= 15;
-            width -= 15;
-            if (hitcounter >= 3)
+            height -= 10;
+            width -= 10;
+            if (hitcounter >= 5)
             {   
                 if (player)
                 {

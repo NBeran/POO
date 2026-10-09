@@ -8,8 +8,8 @@ namespace player.Helpers
 {
     static internal class Config
     {
-        public static readonly int AIRSPACEWIDTH = 800;        // Dimensions of the airspace
-        public static readonly int AIRSPACEHEIGHT = 900;
+        public static readonly int AIRSPACEWIDTH =1500;        // Dimensions of the airspace
+        public static readonly int AIRSPACEHEIGHT = 1000;
         public static readonly int limitheight = AIRSPACEHEIGHT - (AIRSPACEHEIGHT / 5 );
     }
 }
