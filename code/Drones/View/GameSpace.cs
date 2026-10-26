@@ -136,7 +136,7 @@ namespace player
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
-            if (demonwave.Count <= 1 && skeletonwave.Count <= 1) 
+            if (demonwave.Count <= 0 && skeletonwave.Count <= 0) 
             {
                 wavecooldawn++;
                 if (wavecooldawn > 20)
@@ -245,6 +245,7 @@ namespace player
                         _player.live = 3;
                         _player.x = Config.AIRSPACEWIDTH / 2;
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
+                        monsterinterval = 550;
                         foreach (PlayerAtk a in attaques)
                         {
                             atkdelete.Add(a);
