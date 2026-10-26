@@ -3,6 +3,7 @@ using Drones.Model;
 using player.Helpers;
 using player.Model;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 
 namespace player
 {
@@ -15,14 +16,17 @@ namespace player
         private int skeletoncooldawn = 0;
         private int demoncooldown = 0;
         private int cooldawn = 0;
+        private int wavecooldawn = 0;
+        private int monsterinterval = 500;
         public static bool droite = false;
         public static bool gauche = false;
         public static bool haut = false;
         public static bool bas = false;
+        public static bool tire = false;
         private static int score = 0;
         private static skeleton skeletonshooting;
         private static demon demonshooting;
-
+        private bool gameover = false;
         List<PlayerAtk> attaques = new List<PlayerAtk>();
         List<PlayerAtk> atkdelete = new List<PlayerAtk>();
 
@@ -63,11 +67,11 @@ namespace player
             // dimensions the same size as the drawing surface of the form.
             airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
-            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 150)
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
             {
                 demonwave.Add(new demon(i, 100));
             }
-            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 150)
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
             {
                 skeletonwave.Add(new skeleton(i, 0));
             }
@@ -79,44 +83,68 @@ namespace player
         }
 
         // Affichage de la situation actuelle
-        private void Render()
+        public void Render()
         {
-            airspace.Graphics.Clear(Color.IndianRed);
+            if (gameover)
+            {
 
-            airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, 5);
-            airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, Config.AIRSPACEHEIGHT - 30);
-            _player.Render(airspace);
+                airspace.Graphics.Clear(Color.Orange);
+                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH/5, Config.AIRSPACEHEIGHT/2);
+                airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2 + 50);
+                airspace.Graphics.DrawString("Appuyez sur espace pour réessayer", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2 + 100);
 
-            foreach (PlayerAtk atk in attaques)
-            {
-                atk.Render(airspace);
+
+                airspace.Render();
             }
-            foreach (skeleton skeleton in skeletonwave)
+            else
             {
-                skeleton.Render(airspace);
+
+
+                airspace.Graphics.Clear(Color.IndianRed);
+                airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, 5);
+                airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, Config.AIRSPACEHEIGHT - 30);
+                _player.Render(airspace);
+
+                foreach (PlayerAtk atk in attaques)
+                {
+                    atk.Render(airspace);
+                }
+                foreach (skeleton skeleton in skeletonwave)
+                {
+                    skeleton.Render(airspace);
+                }
+                foreach (skeletonatk atk in skeletonatks)
+                {
+                    atk.Render(airspace);
+                }
+                foreach (demon demon in demonwave)
+                {
+                    demon.Render(airspace);
+                }
+                foreach (demonatk atk in demonatks)
+                {
+                    atk.Render(airspace);
+                }
+                foreach (bone_pile bone in defense)
+                {
+                    bone.Render(airspace);
+                }
+                airspace.Render();
             }
-            foreach (skeletonatk atk in skeletonatks)
-            {
-                atk.Render(airspace);
-            }
-            foreach (demon demon in demonwave)
-            {
-                demon.Render(airspace);
-            }
-            foreach (demonatk atk in demonatks)
-            {
-                atk.Render(airspace);
-            }
-            foreach (bone_pile bone in defense)
-            {
-                bone.Render(airspace);
-            }
-            airspace.Render();
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
+            if (demonwave.Count <= 1 && skeletonwave.Count <= 1) 
+            {
+                wavecooldawn++;
+                if (wavecooldawn > 20)
+                {
+                    wavecooldawn = 0;
+                    newwave();
+                }
+            }
             cooldawn++;
             skeletoncooldawn += skeletonwave.Count;
             demoncooldown += demonwave.Count;
@@ -195,30 +223,7 @@ namespace player
             }
 
             checkhit();
-            foreach (skeleton a in skeletondelete)
-            {
-                skeletonwave.Remove(a);
-            }
-            foreach (demon a in demondelete)
-            {
-                demonwave.Remove(a);
-            }
-            foreach (skeletonatk s in skeletonatksdelete)
-            {
-                skeletonatks.Remove(s);
-            }
-            foreach (PlayerAtk a in atkdelete)
-            {
-                attaques.Remove(a);
-            }
-            foreach (demonatk s in demonatkdelete)
-            {
-                demonatks.Remove(s);
-            }
-            foreach (bone_pile b in defenseadelete)
-            {
-                defense.Remove(b);
-            }
+            removeobj();
         }
 
         // Méthode appelée à chaque frame
@@ -234,7 +239,48 @@ namespace player
             switch (e.KeyCode)
             {
                 case Keys.Space:
-                    shoot();
+                    if (gameover)
+                    {
+                        gameover = false;
+                        _player.live = 3;
+                        _player.x = Config.AIRSPACEWIDTH / 2;
+                        _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
+                        foreach (PlayerAtk a in attaques)
+                        {
+                            atkdelete.Add(a);
+                        }
+                        foreach (skeleton s in skeletonwave)
+                        {
+                            skeletondelete.Add(s);
+                        }
+                        foreach(demon d in demonwave)
+                        {
+                            demondelete.Add(d);
+                        }
+                        foreach(demonatk d in demonatks)
+                        {
+                            demonatkdelete.Add(d);
+                        }
+                        foreach(skeletonatk d in skeletonatks)
+                        {
+                            skeletonatksdelete.Add(d);
+                        }
+                        foreach(bone_pile b in defense)
+                        {
+                            defenseadelete.Add(b);
+                        }
+                        for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
+                        {
+                            defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
+                        }
+                        removeobj();
+                        newwave();
+                    }
+                    else
+                    {
+                        shoot();
+                    }
+
                     break;
                 case Keys.Up:
                     haut = true;
@@ -352,7 +398,7 @@ namespace player
                     if (_player.live == 0)
                     {
 
-                        _player.die(airspace, ticker.Interval);
+                        gameover = true;
                     }
                 }
                 foreach (bone_pile b in defense)
@@ -383,7 +429,7 @@ namespace player
                     if (_player.live == 0)
                     {
 
-                        _player.die(airspace, ticker.Interval);
+                        gameover = true;
                     }
                 }
                 foreach (bone_pile b in defense)
@@ -405,37 +451,45 @@ namespace player
         }
 
 
-        public  void renderdie(BufferedGraphics airspace)
+        public  void removeobj()
         {
-            airspace.Graphics.Clear(Color.IndianRed);
+            foreach (skeleton a in skeletondelete)
+            {
+                skeletonwave.Remove(a);
+            }
+            foreach (demon a in demondelete)
+            {
+                demonwave.Remove(a);
+            }
+            foreach (skeletonatk s in skeletonatksdelete)
+            {
+                skeletonatks.Remove(s);
+            }
+            foreach (PlayerAtk a in atkdelete)
+            {
+                attaques.Remove(a);
+            }
+            foreach (demonatk s in demonatkdelete)
+            {
+                demonatks.Remove(s);
+            }
+            foreach (bone_pile b in defenseadelete)
+            {
+                defense.Remove(b);
+            }
+        }
 
-            _player.Render(airspace);
-
-            foreach (PlayerAtk atk in attaques)
+        public void newwave()
+        {
+            monsterinterval -= 50;
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
             {
-                atk.Render(airspace);
+                demonwave.Add(new demon(i, 100));
             }
-            foreach (skeleton skeleton in skeletonwave)
+            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
             {
-                skeleton.Render(airspace);
+                skeletonwave.Add(new skeleton(i, 0));
             }
-            foreach (skeletonatk atk in skeletonatks)
-            {
-                atk.Render(airspace);
-            }
-            foreach (demon demon in demonwave)
-            {
-                demon.Render(airspace);
-            }
-            foreach (demonatk atk in demonatks)
-            {
-                atk.Render(airspace);
-            }
-            foreach (bone_pile bone in defense)
-            {
-                bone.Render(airspace);
-            }
-            
         }
     }
 }

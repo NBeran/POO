@@ -4,6 +4,7 @@
     internal static class TextHelpers
     {
         public static Font drawFont = new Font("Arial", 15);
+        public static Font DieFont = new Font("Arial", 35);
         public static SolidBrush writingBrush = new SolidBrush(Color.Black);
     }
 }

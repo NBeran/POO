@@ -1,7 +1,9 @@
-﻿using Drones.Properties;
+﻿using Drones.Model;
+using Drones.Properties;
 using player.Helpers;
 using player.Model;
 using System.Runtime.Intrinsics.Arm;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace player
 {
@@ -78,12 +80,6 @@ namespace player
             if (y > Config.AIRSPACEHEIGHT - playerheight) y = Config.AIRSPACEHEIGHT - playerheight;
         }
 
-        public void die(BufferedGraphics airspace, int interval)
-        {
-            
-            while (true) {
-                
-            }
-        }
+
     }
 }
