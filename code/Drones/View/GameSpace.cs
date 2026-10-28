@@ -17,7 +17,7 @@ namespace player
         private int demoncooldown = 0;
         private int cooldawn = 0;
         private int wavecooldawn = 0;
-        private int monsterinterval = 500;
+        private int monsterinterval = 350;
         public static bool droite = false;
         public static bool gauche = false;
         public static bool haut = false;
@@ -67,18 +67,11 @@ namespace player
             // dimensions the same size as the drawing surface of the form.
             airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
             this._player = player;
-            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
-            {
-                demonwave.Add(new demon(i, 100));
-            }
-            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
-            {
-                skeletonwave.Add(new skeleton(i, 0));
-            }
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
             {
                 defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
             }
+            newwave();
 
         }
 
@@ -89,7 +82,7 @@ namespace player
             {
 
                 airspace.Graphics.Clear(Color.Orange);
-                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH/5, Config.AIRSPACEHEIGHT/2);
+                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2);
                 airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2 + 50);
                 airspace.Graphics.DrawString("Appuyez sur espace pour réessayer", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2 + 100);
 
@@ -136,7 +129,7 @@ namespace player
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
-            if (demonwave.Count <= 0 && skeletonwave.Count <= 0) 
+            if (demonwave.Count <= 0 && skeletonwave.Count <= 0)
             {
                 wavecooldawn++;
                 if (wavecooldawn > 20)
@@ -243,9 +236,10 @@ namespace player
                     {
                         gameover = false;
                         _player.live = 3;
+                        score = 0;
                         _player.x = Config.AIRSPACEWIDTH / 2;
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
-                        monsterinterval = 550;
+                        monsterinterval = 350;
                         foreach (PlayerAtk a in attaques)
                         {
                             atkdelete.Add(a);
@@ -254,19 +248,19 @@ namespace player
                         {
                             skeletondelete.Add(s);
                         }
-                        foreach(demon d in demonwave)
+                        foreach (demon d in demonwave)
                         {
                             demondelete.Add(d);
                         }
-                        foreach(demonatk d in demonatks)
+                        foreach (demonatk d in demonatks)
                         {
                             demonatkdelete.Add(d);
                         }
-                        foreach(skeletonatk d in skeletonatks)
+                        foreach (skeletonatk d in skeletonatks)
                         {
                             skeletonatksdelete.Add(d);
                         }
-                        foreach(bone_pile b in defense)
+                        foreach (bone_pile b in defense)
                         {
                             defenseadelete.Add(b);
                         }
@@ -452,7 +446,7 @@ namespace player
         }
 
 
-        public  void removeobj()
+        public void removeobj()
         {
             foreach (skeleton a in skeletondelete)
             {
@@ -482,7 +476,9 @@ namespace player
 
         public void newwave()
         {
-            monsterinterval -= 50;
+
+                monsterinterval -= 50;
+            
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
             {
                 demonwave.Add(new demon(i, 100));
@@ -491,6 +487,55 @@ namespace player
             {
                 skeletonwave.Add(new skeleton(i, 0));
             }
+            isinscreen();
+        }
+        public void isinscreen()
+        {
+            foreach (skeleton s in skeletonwave)
+            {
+                if (s.X < 0 || s.X > Config.AIRSPACEWIDTH - skeleton.Height || s.Y < 0 || s.Y > Config.AIRSPACEHEIGHT - skeleton.Height)
+                {
+                    skeletondelete.Add(s);
+                }
+            }
+            foreach (demon d in demonwave)
+            {
+                if (d.X < 0 || d.X > Config.AIRSPACEWIDTH - demon.Height || d.Y < 0 || d.Y > Config.AIRSPACEHEIGHT - demon.Height)
+                {
+                    demondelete.Add(d);
+                }
+            }
+            foreach (demonatk d in demonatks)
+            {
+                if (d.X < 0 || d.X > Config.AIRSPACEWIDTH - demonatk.Width || d.Y < 0 || d.Y > Config.AIRSPACEHEIGHT - demonatk.Height)
+                {
+                    demonatkdelete.Add(d);
+                }
+            }
+            foreach (skeletonatk s in skeletonatks)
+            {
+                if (s.X < 0 || s.X > Config.AIRSPACEWIDTH - skeletonatk.Width || s.Y < 0 || s.Y > Config.AIRSPACEHEIGHT - skeletonatk.Height)
+                {
+                    skeletonatksdelete.Add(s);
+                }
+            }
+            foreach (PlayerAtk p in attaques)
+            {
+
+                if (p.X < 0 || p.X > Config.AIRSPACEWIDTH - PlayerAtk.Width || p.Y < 0 || p.Y > Config.AIRSPACEHEIGHT - PlayerAtk.Height)
+                {
+                    atkdelete.Add(p);
+
+                }
+            }
+            foreach (bone_pile b in defense)
+            {
+                if (b.x < 0 || b.x > Config.AIRSPACEWIDTH - bone_pile.maxwidth || b.y < 0 || b.y > Config.AIRSPACEHEIGHT - bone_pile.maxheight)
+                {
+                    defenseadelete.Add(b);
+                }
+            }
+            removeobj();
         }
     }
 }

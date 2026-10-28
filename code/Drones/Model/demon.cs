@@ -17,6 +17,11 @@ namespace Drones.Model
         private int hp;
         private static int height = 85;
         private static int score = 300;
+        private bool gauche = false;
+        private bool droite = false;
+        private bool bas = true;
+        private int walktime = 0;
+        private bool gaucheavant = false;
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }
         public int Speed { get => speed; set => speed = value; }
@@ -37,10 +42,10 @@ namespace Drones.Model
         }
         public void update(int interval)
         {
-            
+
             if (y + height >= Config.limitheight)
-           {
-                 if (GameSpace.Defense.Count >= 1)
+            {
+                if (GameSpace.Defense.Count >= 1)
                 {
                     GameSpace.Defense[0].hit(false);
                 }
@@ -48,10 +53,65 @@ namespace Drones.Model
                 {
                     throw new Exception("le joueur s'est fait tué");
                 }
-           }
+            }
             else
             {
-                y += speed;
+                if (gauche)
+                {
+                    walktime++;
+                    if (x > 0)
+                    {
+                        x -= speed;
+                    }
+                    if (walktime >= 25)
+                    {
+                        gauche = false;
+                        bas = true;
+                        walktime = 0;
+                    }
+
+
+                }
+                else if (droite)
+                {
+                    walktime++;
+                    if (x < Config.AIRSPACEWIDTH - height)
+                    {
+                        x += speed;
+
+                    }
+
+                    if (walktime >= 25)
+                    {
+                        droite = false;
+                        bas = true;
+                        walktime = 0;
+                    }
+
+                }
+                else if (bas)
+                {
+                    y += speed;
+                    walktime++;
+                    if (walktime >= 25)
+                    {
+                        walktime = 0;
+
+                        if (gaucheavant)
+                        {
+                            droite = true;
+                            bas = false;
+                            gaucheavant = false;
+
+                        }
+                        else
+                        {
+                            gauche = true;
+                            bas = false;
+                            gaucheavant = true;
+                        }
+                    }
+                }
             }
         }
     }
