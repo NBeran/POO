@@ -23,6 +23,7 @@ namespace player
         public static bool haut = false;
         public static bool bas = false;
         public static bool tire = false;
+        private bool gamejustlunch = true;
         private static int score = 0;
         private static skeleton skeletonshooting;
         private static demon demonshooting;
@@ -66,6 +67,8 @@ namespace player
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
             airspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
+
+
             this._player = player;
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
             {
@@ -78,7 +81,17 @@ namespace player
         // Affichage de la situation actuelle
         public void Render()
         {
-            if (gameover)
+            if (gamejustlunch)
+            {
+                airspace.Graphics.Clear(Color.Orange);
+                airspace.Graphics.DrawString("Projet shoot them up", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3, Config.AIRSPACEHEIGHT / 2 - Config.AIRSPACEHEIGHT/3);
+                airspace.Graphics.DrawString("Noé Béran", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH /3 + 100, Config.AIRSPACEHEIGHT / 2);
+                airspace.Graphics.DrawString("cliquer sur espace pour commencer", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5 + 50, Config.AIRSPACEHEIGHT / 2 + 100);
+                airspace.Render();
+                
+            }
+            
+            else if (gameover)
             {
 
                 airspace.Graphics.Clear(Color.Orange);
@@ -222,8 +235,10 @@ namespace player
         // Méthode appelée à chaque frame
         private void NewFrame(object sender, EventArgs e)
         {
-
-            this.Update(ticker.Interval);
+            if (!gamejustlunch && !gameover)
+            {
+                this.Update(ticker.Interval);
+            }
             this.Render();
         }
 
@@ -232,7 +247,11 @@ namespace player
             switch (e.KeyCode)
             {
                 case Keys.Space:
-                    if (gameover)
+                    if (gamejustlunch)
+                    {
+                        gamejustlunch = false;
+                    }
+                    else if (gameover)
                     {
                         gameover = false;
                         _player.live = 3;
