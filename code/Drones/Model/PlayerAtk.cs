@@ -30,10 +30,7 @@ namespace player.Model
         public void update (int interval)
         {
             y -= speed;
-            if (y < -80)
-            {
-                throw new Exception();
-            }
+
         }
     }
 }

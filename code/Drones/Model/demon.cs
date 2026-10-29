@@ -49,10 +49,7 @@ namespace Drones.Model
                 {
                     GameSpace.Defense[0].hit(false);
                 }
-                else
-                {
-                    throw new Exception("le joueur s'est fait tué");
-                }
+
             }
             else
             {

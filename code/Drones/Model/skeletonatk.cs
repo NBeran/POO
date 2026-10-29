@@ -37,10 +37,7 @@ namespace Drones.Model
         public void update(int interval)
         {
             y += speed;
-            if (y > Config.AIRSPACEHEIGHT)
-            {
-                throw new Exception();
-            }
+
         }
     }
 }

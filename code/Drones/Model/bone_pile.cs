@@ -19,7 +19,8 @@ namespace Drones.Model
         public static int maxheight = 75;
         public static int maxwidth = 100;
         private int hitcounter;
-        public int Height { get => height; set => height = value; }
+        public int Height { get => height; private set => height = value; }
+        public int Hitcounter { get => hitcounter; set => hitcounter = value; }
 
         public bone_pile(int x, int y)
         {
@@ -46,7 +47,7 @@ namespace Drones.Model
                 {
                     GameSpace.Score -= 200;
                 }
-                throw new Exception("defense cassée");
+              
             }
         }
     }

@@ -171,61 +171,43 @@ namespace player
             _player.Update(interval, haut, bas, gauche, droite);
             foreach (PlayerAtk a in attaques)
             {
-                try
-                {
                     a.update(interval);
-                }
-                catch
-                {
-                    atkdelete.Add(a);
-                }
             }
 
             foreach (skeleton skeleton in skeletonwave)
             {
-                try
-                {
+                
+                
                     skeleton.update(interval);
-                }
-                catch
+                
+                if (skeleton.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
                 {
                     _player.live = 0;
+                    gameover = true;
                 }
 
             }
             foreach (skeletonatk skeletonatk in skeletonatks)
             {
-                try
-                {
-                    skeletonatk.update(interval);
-                }
-                catch
-                {
-                    skeletonatksdelete.Add(skeletonatk);
-                }
+
+                    skeletonatk.update(interval);         
             }
 
             foreach (demon demon in demonwave)
             {
-                try
-                {
+                
+                
                     demon.update(interval);
-                }
-                catch
+                
+                 if (demon.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
                 {
                     _player.live = 0;
+                    gameover = true;
                 }
             }
             foreach (demonatk demonatk in demonatks)
             {
-                try
-                {
-                    demonatk.update(interval);
-                }
-                catch
-                {
-                    demonatkdelete.Add(demonatk);
-                }
+                    demonatk.update(interval);      
             }
 
             checkhit();
@@ -343,6 +325,10 @@ namespace player
         {
             foreach (PlayerAtk p in attaques)
             {
+                if (p.Y + PlayerAtk.Height < 0)
+                {
+                    atkdelete.Add(p);
+                }
                 foreach (skeleton s in skeletonwave)
                 {
                     if (p.X + PlayerAtk.Width >= s.X && p.X <= s.X + skeleton.Height && p.Y + PlayerAtk.Height >= s.Y && p.Y <= s.Y + skeleton.Height)
@@ -388,11 +374,11 @@ namespace player
                 {
                     if (p.X + PlayerAtk.Width >= b.x && p.X <= b.x + b.width && p.Y + PlayerAtk.Height >= b.y && p.Y <= b.y + b.height)
                     {
-                        try
-                        {
+                        
+                        
                             b.hit(true);
-                        }
-                        catch
+                        
+                        if (b.Hitcounter >= 5)
                         {
                             defenseadelete.Add(b);
                         }
@@ -402,6 +388,10 @@ namespace player
             }
             foreach (skeletonatk s in skeletonatks)
             {
+                if (s.Y + skeletonatk.Height > Config.AIRSPACEHEIGHT)
+                {
+                    skeletonatksdelete.Add(s);
+                }
                 if (_player.x + skeletonatk.Width >= s.X && _player.x <= s.X + skeletonatk.Height && _player.y + PlayerAtk.Height >= s.Y && _player.y <= s.Y + skeletonatk.Height)
                 {
                     skeletonatksdelete.Add(s);
@@ -419,11 +409,11 @@ namespace player
                 {
                     if (s.X + skeletonatk.Width >= b.x && s.X <= b.x + b.width && s.Y + skeletonatk.Height >= b.y && s.Y <= b.y + b.height)
                     {
-                        try
-                        {
+                        
+                        
                             b.hit(false);
-                        }
-                        catch
+                        
+                        if (b.Hitcounter >= 5)
                         {
                             defenseadelete.Add(b);
                         }
@@ -433,6 +423,10 @@ namespace player
             }
             foreach (demonatk d in demonatks)
             {
+                if (d.Y + demonatk.Height > Config.AIRSPACEHEIGHT)
+                {
+                    demonatkdelete.Add(d);
+                }
                 if (_player.x + demonatk.Width >= d.X && _player.x <= d.X + demonatk.Height && _player.y + PlayerAtk.Height >= d.Y && _player.y <= d.Y + demonatk.Height)
                 {
                     demonatkdelete.Add(d);
@@ -450,11 +444,11 @@ namespace player
                 {
                     if (d.X + demonatk.Width >= b.x && d.X <= b.x + b.width && d.Y + demonatk.Height >= b.y && d.Y <= b.y + b.height)
                     {
-                        try
-                        {
+                        
+                        
                             b.hit(false);
-                        }
-                        catch
+                        
+                        if (b.Hitcounter >= 5)
                         {
                             defenseadelete.Add(b);
                         }
