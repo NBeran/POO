@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Drones.Model
 {
-    internal class skeletonatk
+    public class skeletonatk
     {
         private int x;
         private int y;

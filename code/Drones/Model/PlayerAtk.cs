@@ -2,7 +2,7 @@
 
 namespace player.Model
 {
-    internal class PlayerAtk
+    public class PlayerAtk
     {
         private int x;
         private int y;

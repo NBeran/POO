@@ -28,23 +28,23 @@ namespace player
         private static skeleton skeletonshooting;
         private static demon demonshooting;
         private bool gameover = false;
-        List<PlayerAtk> atk = new List<PlayerAtk>();
-        List<PlayerAtk> atkdelete = new List<PlayerAtk>();
+        public List<PlayerAtk> atk = new List<PlayerAtk>();
+        public List<PlayerAtk> atkdelete = new List<PlayerAtk>();
 
-        List<skeleton> skeletonwave = new List<skeleton>();
-        List<skeleton> skeletondelete = new List<skeleton>();
-        List<skeletonatk> skeletonatks = new List<skeletonatk>();
-        List<skeletonatk> skeletonatksdelete = new List<skeletonatk>();
+        public List<skeleton> skeletonwave = new List<skeleton>();
+        public List<skeleton> skeletondelete = new List<skeleton>();
+        public List<skeletonatk> skeletonatks = new List<skeletonatk>();
+        public List<skeletonatk> skeletonatksdelete = new List<skeletonatk>();
 
-        List<demon> demonwave = new List<demon>();
-        List<demon> demondelete = new List<demon>();
-        List<demonatk> demonatks = new List<demonatk>();
-        List<demonatk> demonatkdelete = new List<demonatk>();
+        public List<demon> demonwave = new List<demon>();
+        public List<demon> demondelete = new List<demon>();
+        public List<demonatk> demonatks = new List<demonatk>();
+        public List<demonatk> demonatkdelete = new List<demonatk>();
 
-        static List<bone_pile> defense = new List<bone_pile>();
-        List<bone_pile> defenseadelete = new List<bone_pile>();
+        static public List<bone_pile> defense = new List<bone_pile>();
+        public List<bone_pile> defenseadelete = new List<bone_pile>();
         // La flotte est l'ensemble des drones qui évoluent dans notre espace aérien
-        private Drone _player;
+        private Player _player;
 
         BufferedGraphicsContext currentContext;
         BufferedGraphics airspace;
@@ -52,12 +52,17 @@ namespace player
         internal List<skeleton> Skeletonwave { get => skeletonwave; set => skeletonwave = value; }
         public static int Score { get => score; set => score = value; }
         internal static List<bone_pile> Defense { get => defense; set => defense = value; }
+        public int Wavecooldawn { get => wavecooldawn; set => wavecooldawn = value; }
+        public int Cooldawn { get => cooldawn; set => cooldawn = value; }
+        public int Demoncooldown { get => demoncooldown; set => demoncooldown = value; }
+        public int Skeletoncooldawn { get => skeletoncooldawn; set => skeletoncooldawn = value; }
+        public int Monsterinterval { get => monsterinterval; set => monsterinterval = value; }
 
 
 
 
         // Initialisation de l'espace aérien avec un certain nombre de drones
-        public GameSpace(Drone player)
+        public GameSpace(Player player)
         {
             InitializeComponent();
             ClientSize = new Size(Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
@@ -140,7 +145,7 @@ namespace player
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
-        private void Update(int interval)
+        public void Update(int interval)
         {
             if (demonwave.Count <= 0 && skeletonwave.Count <= 0)
             {
@@ -241,35 +246,7 @@ namespace player
                         _player.x = Config.AIRSPACEWIDTH / 2;
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
                         monsterinterval = 350;
-                        foreach (PlayerAtk a in atk)
-                        {
-                            atkdelete.Add(a);
-                        }
-                        foreach (skeleton s in skeletonwave)
-                        {
-                            skeletondelete.Add(s);
-                        }
-                        foreach (demon d in demonwave)
-                        {
-                            demondelete.Add(d);
-                        }
-                        foreach (demonatk d in demonatks)
-                        {
-                            demonatkdelete.Add(d);
-                        }
-                        foreach (skeletonatk d in skeletonatks)
-                        {
-                            skeletonatksdelete.Add(d);
-                        }
-                        foreach (bone_pile b in defense)
-                        {
-                            defenseadelete.Add(b);
-                        }
-                        for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
-                        {
-                            defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
-                        }
-                        removeobj();
+                        ClearWave();
                         newwave();
                     }
                     else
@@ -323,12 +300,15 @@ namespace player
         }
         public void checkhit()
         {
+            //joueur
             foreach (PlayerAtk p in atk)
             {
                 if (p.Y + PlayerAtk.Height < 0)
                 {
                     atkdelete.Add(p);
                 }
+
+
                 foreach (skeleton s in skeletonwave)
                 {
                     if (p.X + PlayerAtk.Width >= s.X && p.X <= s.X + skeleton.Height && p.Y + PlayerAtk.Height >= s.Y && p.Y <= s.Y + skeleton.Height)
@@ -386,6 +366,7 @@ namespace player
                     }
                 }
             }
+            //skelette
             foreach (skeletonatk s in skeletonatks)
             {
                 if (s.Y + skeletonatk.Height > Config.AIRSPACEHEIGHT)
@@ -421,6 +402,7 @@ namespace player
                     }
                 }
             }
+            //demon
             foreach (demonatk d in demonatks)
             {
                 if (d.Y + demonatk.Height > Config.AIRSPACEHEIGHT)
@@ -485,6 +467,12 @@ namespace player
             {
                 defense.Remove(b);
             }
+            skeletondelete.Clear();
+            demondelete.Clear();
+            skeletonatksdelete.Clear();
+            atkdelete.Clear();
+            demonatkdelete.Clear();
+            defenseadelete.Clear();
         }
 
         public void newwave()
@@ -549,6 +537,12 @@ namespace player
                 }
             }
             removeobj();
+        }
+
+        public void ClearWave()
+        {
+            skeletonwave.Clear();
+            demonwave.Clear();
         }
     }
 }

@@ -3,7 +3,7 @@ using Drones.Model;
 
 namespace Drones.Helpers
 {
-    internal static class randomhelper
+    public static class randomhelper
     {
         private static Random random = new Random();
         public static skeleton rndskeleton(List <skeleton> i)

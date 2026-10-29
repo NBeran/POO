@@ -8,7 +8,7 @@ using static System.Formats.Asn1.AsnWriter;
 namespace player
 {
     // Cette partie de la classe Drone définit ce qu'est un drone par un modèle numérique
-    public class Drone
+    public class Player
     {
         public string name;                           // Un nom
         public int x;                                 // Position en X depuis la gauche de l'espace aérien
@@ -16,7 +16,7 @@ namespace player
         public int speed_x;
         public int speed_y;                             // Déplacement horizontal
         public int live = 3;
-        public int playerheight = 85;
+        private int playerheight = 85;
         public int speed = 20;
         private int cooldawn = 0;
 
@@ -24,7 +24,7 @@ namespace player
         private Random _alea = new Random();
 
         // Constructeur
-        public Drone(int x, int y, string name)
+        public Player(int x, int y, string name)
         {
             this.x = x;
             this.y = y;
@@ -56,6 +56,8 @@ namespace player
         /// //////////////////////////////////////////////////////////////////////////////
 
         private Pen droneBrush = new Pen(new SolidBrush(Color.Purple), 3);
+
+        public int Playerheight { get => playerheight; set => playerheight = value; }
 
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)

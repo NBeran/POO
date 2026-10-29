@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Drones.Model
 {
-    internal class demon
+    public class demon
     {
         private int x;
         private int y;
@@ -28,6 +28,11 @@ namespace Drones.Model
         public int Hp { get => hp; set => hp = value; }
         public static int Height { get => height; set => height = value; }
         public static int Score { get => score; set => score = value; }
+        public bool Left { get => left; set => left = value; }
+        public bool Right { get => right; set => right = value; }
+        public bool Down { get => down; set => down = value; }
+        public int Walktime { get => walktime; set => walktime = value; }
+        public bool Lastleft { get => lastleft; set => lastleft = value; }
 
         public demon(int x, int y)
         {

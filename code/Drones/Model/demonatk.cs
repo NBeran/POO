@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Drones.Model
 {
-    internal class demonatk
+    public class demonatk
     {
         private int x;
         private int y;

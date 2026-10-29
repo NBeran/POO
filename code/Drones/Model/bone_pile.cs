@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Drones.Model
 {
-    internal class bone_pile
+    public class bone_pile
     {
         public int x;                                 
         public int y;                                                         

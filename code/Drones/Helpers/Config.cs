@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace player.Helpers
 {
-    static internal class Config
+    static public class Config
     {
         public static readonly int AIRSPACEWIDTH =1500;        // Dimensions of the airspace
         public static readonly int AIRSPACEHEIGHT = 1000;
