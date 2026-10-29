@@ -18,17 +18,17 @@ namespace player
         private int cooldawn = 0;
         private int wavecooldawn = 0;
         private int monsterinterval = 350;
-        public static bool droite = false;
-        public static bool gauche = false;
-        public static bool haut = false;
-        public static bool bas = false;
-        public static bool tire = false;
+        public static bool right = false;
+        public static bool left = false;
+        public static bool up = false;
+        public static bool down = false;
+        public static bool shooting = false;
         private bool gamejustlunch = true;
         private static int score = 0;
         private static skeleton skeletonshooting;
         private static demon demonshooting;
         private bool gameover = false;
-        List<PlayerAtk> attaques = new List<PlayerAtk>();
+        List<PlayerAtk> atk = new List<PlayerAtk>();
         List<PlayerAtk> atkdelete = new List<PlayerAtk>();
 
         List<skeleton> skeletonwave = new List<skeleton>();
@@ -111,7 +111,7 @@ namespace player
                 airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, Config.AIRSPACEHEIGHT - 45);
                 _player.Render(airspace);
 
-                foreach (PlayerAtk atk in attaques)
+                foreach (PlayerAtk atk in atk)
                 {
                     atk.Render(airspace);
                 }
@@ -168,8 +168,8 @@ namespace player
                 demonatk atk = new demonatk(demonshooting.X, demonshooting.Y);
                 demonatks.Add(atk);
             }
-            _player.Update(interval, haut, bas, gauche, droite);
-            foreach (PlayerAtk a in attaques)
+            _player.Update(interval, up, down, left, right);
+            foreach (PlayerAtk a in atk)
             {
                     a.update(interval);
             }
@@ -241,7 +241,7 @@ namespace player
                         _player.x = Config.AIRSPACEWIDTH / 2;
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
                         monsterinterval = 350;
-                        foreach (PlayerAtk a in attaques)
+                        foreach (PlayerAtk a in atk)
                         {
                             atkdelete.Add(a);
                         }
@@ -279,16 +279,16 @@ namespace player
 
                     break;
                 case Keys.Up:
-                    haut = true;
+                    up = true;
                     break;
                 case Keys.Down:
-                    bas = true;
+                    down = true;
                     break;
                 case Keys.Right:
-                    droite = true;
+                    right = true;
                     break;
                 case Keys.Left:
-                    gauche = true;
+                    left = true;
                     break;
 
 
@@ -299,16 +299,16 @@ namespace player
             switch (e.KeyCode)
             {
                 case Keys.Up:
-                    haut = false;
+                    up = false;
                     break;
                 case Keys.Down:
-                    bas = false;
+                    down = false;
                     break;
                 case Keys.Right:
-                    droite = false;
+                    right = false;
                     break;
                 case Keys.Left:
-                    gauche = false;
+                    left = false;
                     break;
 
             }
@@ -317,13 +317,13 @@ namespace player
         {
             if (cooldawn >= 6)
             {
-                attaques.Add(new PlayerAtk(_player.x, _player.y));
+                atk.Add(new PlayerAtk(_player.x, _player.y));
                 cooldawn = 0;
             }
         }
         public void checkhit()
         {
-            foreach (PlayerAtk p in attaques)
+            foreach (PlayerAtk p in atk)
             {
                 if (p.Y + PlayerAtk.Height < 0)
                 {
@@ -475,7 +475,7 @@ namespace player
             }
             foreach (PlayerAtk a in atkdelete)
             {
-                attaques.Remove(a);
+                atk.Remove(a);
             }
             foreach (demonatk s in demonatkdelete)
             {
@@ -532,7 +532,7 @@ namespace player
                     skeletonatksdelete.Add(s);
                 }
             }
-            foreach (PlayerAtk p in attaques)
+            foreach (PlayerAtk p in atk)
             {
 
                 if (p.X < 0 || p.X > Config.AIRSPACEWIDTH - PlayerAtk.Width || p.Y < 0 || p.Y > Config.AIRSPACEHEIGHT - PlayerAtk.Height)

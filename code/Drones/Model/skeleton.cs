@@ -17,11 +17,11 @@ namespace Drones.Model
         private int hp;
         private static int height = 85;
         private static int score = 150;
-        private bool gauche = false;
-        private bool droite = false;
-        private bool bas = true;
+        private bool left = false;
+        private bool right = false;
+        private bool down = true;
         private int walktime = 0;
-        private bool gaucheavant = false;
+        private bool lastleft = false;
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }
         public int Speed { get => speed; set => speed = value; }
@@ -52,7 +52,7 @@ namespace Drones.Model
             }
             else
             {
-                if (gauche)
+                if (left)
                 {
                     walktime++;
                     if (x > 0)
@@ -61,14 +61,14 @@ namespace Drones.Model
                     }
                     if (walktime >= 25)
                     {
-                        gauche = false;
-                        bas = true;
+                        left = false;
+                        down = true;
                         walktime = 0;
                     }
 
 
                 }
-                else if (droite)
+                else if (right)
                 {
                     walktime++;
                     if (x < Config.AIRSPACEWIDTH - height)
@@ -79,13 +79,13 @@ namespace Drones.Model
 
                     if (walktime >= 25)
                     {
-                        droite = false;
-                        bas = true;
+                        right = false;
+                        down = true;
                         walktime = 0;
                     }
 
                 }
-                else if (bas)
+                else if (down)
                 {
                     y += speed;
                     walktime++;
@@ -93,18 +93,18 @@ namespace Drones.Model
                     {
                         walktime = 0;
 
-                        if (gaucheavant)
+                        if (lastleft)
                         {
-                            droite = true;
-                            bas = false;
-                            gaucheavant = false;
+                            right = true;
+                            down = false;
+                            lastleft = false;
 
                         }
                         else
                         {
-                            gauche = true;
-                            bas = false;
-                            gaucheavant = true;
+                            left = true;
+                            down = false;
+                            lastleft = true;
                         }
                     }
                 }
