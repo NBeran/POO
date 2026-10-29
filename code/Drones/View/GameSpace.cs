@@ -84,9 +84,9 @@ namespace player
             if (gamejustlunch)
             {
                 airspace.Graphics.Clear(Color.Orange);
-                airspace.Graphics.DrawString("Projet shoot them up", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3, Config.AIRSPACEHEIGHT / 2 - Config.AIRSPACEHEIGHT/3);
-                airspace.Graphics.DrawString("Noé Béran", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH /3 + 100, Config.AIRSPACEHEIGHT / 2);
-                airspace.Graphics.DrawString("cliquer sur espace pour commencer", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5 + 50, Config.AIRSPACEHEIGHT / 2 + 100);
+                airspace.Graphics.DrawString("Projet shoot them up", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3, Config.AIRSPACEHEIGHT / 2 - Config.AIRSPACEHEIGHT/3);
+                airspace.Graphics.DrawString("Noé Béran", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH /3 + 100, Config.AIRSPACEHEIGHT / 2);
+                airspace.Graphics.DrawString("cliquer sur espace pour commencer", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5 + 50, Config.AIRSPACEHEIGHT / 2 + 100);
                 airspace.Render();
                 
             }
@@ -95,9 +95,9 @@ namespace player
             {
 
                 airspace.Graphics.Clear(Color.Orange);
-                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2);
-                airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2 + 50);
-                airspace.Graphics.DrawString("Appuyez sur espace pour réessayer", TextHelpers.DieFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5, Config.AIRSPACEHEIGHT / 2 + 100);
+                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3 + 35, Config.AIRSPACEHEIGHT/4);
+                airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3 + 100, Config.AIRSPACEHEIGHT / 2);
+                airspace.Graphics.DrawString("Appuyez sur espace pour réessayer", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5 + 50, Config.AIRSPACEHEIGHT / 2 + 100);
 
 
                 airspace.Render();
@@ -107,8 +107,8 @@ namespace player
 
 
                 airspace.Graphics.Clear(Color.IndianRed);
-                airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, 5);
-                airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 5, Config.AIRSPACEHEIGHT - 30);
+                airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, 15);
+                airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, Config.AIRSPACEHEIGHT - 45);
                 _player.Render(airspace);
 
                 foreach (PlayerAtk atk in attaques)
