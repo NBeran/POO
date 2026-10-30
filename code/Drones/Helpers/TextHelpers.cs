@@ -8,6 +8,6 @@
         public static Font DieFont = new Font("Arial", 35);
         public static Font StartFont = new Font("Impact", 35, FontStyle.Bold);
         //toutes les couleurs utilisées dans le jeu
-        public static SolidBrush writingBrush = new SolidBrush(Color.Black);
+        public static SolidBrush writingBrush = new SolidBrush(Color.White);
     }
 }

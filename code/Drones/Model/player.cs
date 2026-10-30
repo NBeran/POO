@@ -17,11 +17,15 @@ namespace player
         public int y;                                 // Position en Y depuis le haut de l'espace aérien                        
         public int live = 3;
         private int playerheight = 85;
+        private int dashcooldown = 0;
         public int speed = 20;
         private int cooldawn = 0;
+        private int dashduration = 0;
+        private int dashdurationmax = 3;
 
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int Playerheight { get => playerheight; set => playerheight = value; }
+        public int Dashcooldown { get => dashcooldown; private set => dashcooldown = value; }
 
         // Constructeur
         public Player(int x, int y, string name)
@@ -36,6 +40,19 @@ namespace player
         public void Update(int interval, bool haut, bool bas, bool gauche, bool droite)
         {
             cooldawn++;
+
+            if (dashduration > 0)
+            {
+                
+                dashduration--;
+                if (dashduration == 0)
+                    speed = 20;   
+            }
+            else if (dashcooldown < 100)
+            {
+                dashcooldown++;             
+            }
+
             x = x + (droite ? speed : 0);
             x = x - (gauche ? speed : 0);
             y = y + (bas ? speed : 0);
@@ -68,7 +85,15 @@ namespace player
             if (x > Config.AIRSPACEWIDTH - playerheight) x = Config.AIRSPACEWIDTH - playerheight;
             if (y > Config.AIRSPACEHEIGHT - playerheight) y = Config.AIRSPACEHEIGHT - playerheight;
         }
-
+        public void dash()
+        {
+            if (dashcooldown >= 100 && dashduration == 0)
+            {
+                speed = 100;
+                dashcooldown = 0;
+                dashduration = dashdurationmax;
+            }
+        }
 
     }
 }

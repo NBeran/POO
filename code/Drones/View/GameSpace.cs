@@ -1,7 +1,8 @@
 using player.Helpers;
-using player.Model;
 using player.Helpers;
 using player.Model;
+using player.Model;
+using shoot_them_up.Properties;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 
@@ -19,12 +20,14 @@ namespace player
         private int cooldawn = 0;
         private int wavecooldawn = 0;
         private int monsterinterval = 350;
+        private int dashpourcent = 0;
         public static bool right = false;
         public static bool left = false;
         public static bool up = false;
         public static bool down = false;
         public static bool shooting = false;
         private bool gamejustlunch = true;
+        private bool seekeybin = false;
         private static int score = 0;
         private static skeleton skeletonshooting;
         private static demon demonshooting;
@@ -96,19 +99,23 @@ namespace player
             if (gamejustlunch)
             {
                 airspace.Graphics.Clear(Color.Orange);
-                airspace.Graphics.DrawString("Projet shoot them up", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3, Config.AIRSPACEHEIGHT / 2 - Config.AIRSPACEHEIGHT/3);
-                airspace.Graphics.DrawString("Noé Béran", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH /3 + 100, Config.AIRSPACEHEIGHT / 2);
-                airspace.Graphics.DrawString("cliquer sur espace pour commencer", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5 + 50, Config.AIRSPACEHEIGHT / 2 + 100);
+                airspace.Graphics.DrawImage(Resources.Lobby, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
                 airspace.Render();
-                
+
             }
-            
+            else if (seekeybin)
+            {
+                airspace.Graphics.Clear(Color.Orange);
+                airspace.Graphics.DrawImage(Resources.keybind, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
+                airspace.Render();
+            }
             //affiche l'écran de game over si le joueur est mort
             else if (gameover)
             {
 
                 airspace.Graphics.Clear(Color.Orange);
-                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3 + 35, Config.AIRSPACEHEIGHT/4);
+                airspace.Graphics.DrawImage(Resources.backgroud, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
+                airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3 + 35, Config.AIRSPACEHEIGHT / 4);
                 airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3 + 100, Config.AIRSPACEHEIGHT / 2);
                 airspace.Graphics.DrawString("Appuyez sur espace pour réessayer", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 5 + 50, Config.AIRSPACEHEIGHT / 2 + 100);
 
@@ -121,7 +128,18 @@ namespace player
 
                 //affiche le fond, le score et la vie du joueur
                 airspace.Graphics.Clear(Color.IndianRed);
+                airspace.Graphics.DrawImage(Resources.backgroud, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
                 airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, 15);
+                //airspace.Graphics.DrawString("vague : " + (Config.AIRSPACEWIDTH - monsterinterval) / 50, TextHelpers.drawFont, TextHelpers.writingBrush, 15, 30);
+                dashpourcent = _player.Dashcooldown;
+                if (dashpourcent >= 100)
+                {
+                    airspace.Graphics.DrawString("dash : PRET !", TextHelpers.drawFont, TextHelpers.writingBrush, 15, Config.AIRSPACEHEIGHT - 75);
+                }
+                else
+                {
+                    airspace.Graphics.DrawString("dash : " + _player.Dashcooldown.ToString() + " %", TextHelpers.drawFont, TextHelpers.writingBrush, 15, Config.AIRSPACEHEIGHT - 75);
+                }
                 airspace.Graphics.DrawString("vie : " + _player.live.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, Config.AIRSPACEHEIGHT - 45);
                 _player.Render(airspace);
 
@@ -202,15 +220,15 @@ namespace player
             //calcule la nouvelle position de toutes les attaques du joueur
             foreach (PlayerAtk a in atk)
             {
-                    a.update(interval);
+                a.update(interval);
             }
 
             //calcul la nouvelle position de tous les squelettes
             foreach (skeleton skeleton in skeletonwave)
             {
-                
-                
-                    skeleton.update(interval);
+
+
+                skeleton.update(interval);
                 //tue le joueur si il n'as plus de defense et que un squelette est trop proche
                 if (skeleton.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
                 {
@@ -223,14 +241,14 @@ namespace player
             foreach (skeletonatk skeletonatk in skeletonatks)
             {
 
-                    skeletonatk.update(interval);         
+                skeletonatk.update(interval);
             }
             //calcul la nouvelle position de tous les démons
             foreach (demon demon in demonwave)
             {
-                
-                
-                    demon.update(interval);
+
+
+                demon.update(interval);
                 //tue le joueur si il n'as plus de defense et que un démon est trop proche
                 if (demon.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
                 {
@@ -241,7 +259,7 @@ namespace player
             //calcul la nouvelle position de toutes les attaques des démons
             foreach (demonatk demonatk in demonatks)
             {
-                    demonatk.update(interval);      
+                demonatk.update(interval);
             }
             //verifie toutes les collisions et supprimes les objets qui doivent l'être
             checkhit();
@@ -251,7 +269,7 @@ namespace player
         // Méthode appelée à chaque frame
         private void NewFrame(object sender, EventArgs e)
         {
-            if (!gamejustlunch && !gameover)
+            if (!gamejustlunch && !gameover && !seekeybin)
             {
                 this.Update(ticker.Interval);
             }
@@ -264,9 +282,10 @@ namespace player
             {
                 case Keys.Space:
                     //lance une partie si le joueur appuie sur espace et que le jeu vient de se lancer
-                    if (gamejustlunch)
+                    if (gamejustlunch || seekeybin)
                     {
                         gamejustlunch = false;
+                        seekeybin = false;
                     }
                     //reset le jeu si le joueur appuie sur espace et que le jeu est terminé
                     else if (gameover)
@@ -287,7 +306,7 @@ namespace player
                     }
 
                     break;
-                    //change de direction en fonction des touches appuyées
+                //change de direction en fonction des touches appuyées
                 case Keys.Up:
                     up = true;
                     break;
@@ -299,6 +318,26 @@ namespace player
                     break;
                 case Keys.Left:
                     left = true;
+                    break;
+
+
+                case Keys.E:
+
+                    if (gamejustlunch)
+                    {
+                        seekeybin = true;
+                        gamejustlunch = false;
+                    }
+                    else if (seekeybin)
+                    {
+                        seekeybin = false;
+                        gamejustlunch = true;
+                    }
+                    else
+                    {
+                        _player.dash();
+                    }
+                    
                     break;
 
 
@@ -320,6 +359,9 @@ namespace player
                     break;
                 case Keys.Left:
                     left = false;
+                    break;
+                case Keys.E:
+                    _player.dash();
                     break;
 
             }
@@ -391,10 +433,10 @@ namespace player
                 {
                     if (p.X + PlayerAtk.Width >= b.x && p.X <= b.x + b.width && p.Y + PlayerAtk.Height >= b.y && p.Y <= b.y + b.height)
                     {
-                        
-                        
-                            b.hit(true);
-                        
+
+
+                        b.hit(true);
+
                         if (b.Hitcounter >= 5)
                         {
                             defenseadelete.Add(b);
@@ -427,10 +469,10 @@ namespace player
                 {
                     if (s.X + skeletonatk.Width >= b.x && s.X <= b.x + b.width && s.Y + skeletonatk.Height >= b.y && s.Y <= b.y + b.height)
                     {
-                        
-                        
-                            b.hit(false);
-                        
+
+
+                        b.hit(false);
+
                         if (b.Hitcounter >= 5)
                         {
                             defenseadelete.Add(b);
@@ -463,10 +505,10 @@ namespace player
                 {
                     if (d.X + demonatk.Width >= b.x && d.X <= b.x + b.width && d.Y + demonatk.Height >= b.y && d.Y <= b.y + b.height)
                     {
-                        
-                        
-                            b.hit(false);
-                        
+
+
+                        b.hit(false);
+
                         if (b.Hitcounter >= 5)
                         {
                             defenseadelete.Add(b);
@@ -517,7 +559,7 @@ namespace player
         public void newwave()
         {
             //diminue l'intervale entre les monstre, ce qui augmente le nombre de monstre
-                monsterinterval -= 50;
+            monsterinterval -= 50;
             //regenere touts les nouveaux monstres
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
             {

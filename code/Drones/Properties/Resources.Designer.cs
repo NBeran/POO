@@ -73,6 +73,16 @@ namespace shoot_them_up.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap backgroud {
+            get {
+                object obj = ResourceManager.GetObject("backgroud", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bone_atk {
             get {
                 object obj = ResourceManager.GetObject("bone_atk", resourceCulture);
@@ -106,6 +116,26 @@ namespace shoot_them_up.Properties {
         internal static System.Drawing.Bitmap fireball {
             get {
                 object obj = ResourceManager.GetObject("fireball", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keybind {
+            get {
+                object obj = ResourceManager.GetObject("keybind", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Lobby {
+            get {
+                object obj = ResourceManager.GetObject("Lobby", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
