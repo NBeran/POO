@@ -1,9 +1,4 @@
-﻿using player.Model;
-
-using player.Helpers;
-using player.Model;
-using System.Runtime.Intrinsics.Arm;
-using static System.Formats.Asn1.AsnWriter;
+﻿using player.Helpers;
 using shoot_them_up.Properties;
 
 namespace player
@@ -35,22 +30,21 @@ namespace player
             this.name = name;
         }
 
-        // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
-        // que 'interval' millisecondes se sont écoulées
+
         public void Update(int interval, bool haut, bool bas, bool gauche, bool droite)
         {
             cooldawn++;
 
             if (dashduration > 0)
             {
-                
+
                 dashduration--;
                 if (dashduration == 0)
-                    speed = 20;   
+                    speed = 20;
             }
             else if (dashcooldown < 100)
             {
-                dashcooldown++;             
+                dashcooldown++;
             }
 
             x = x + (droite ? speed : 0);

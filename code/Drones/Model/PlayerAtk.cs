@@ -22,7 +22,7 @@ namespace player.Model
 
         //constructeur
         public PlayerAtk(int x, int y)
-        {   
+        {
             this.x = x;
             this.y = y;
             this.speed = 35;
@@ -30,12 +30,12 @@ namespace player.Model
 
 
         //méthode pour dessiner l'attaque du joueur
-        public void Render (BufferedGraphics drawingSpace)   
+        public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.attaque, x, y, width, height);
         }
         //méthode pour mettre à jour la position de l'attaque du joueur
-        public void update (int interval)
+        public void update(int interval)
         {
             y -= speed;
 

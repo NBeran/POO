@@ -1,20 +1,12 @@
-﻿
-using player;
-using shoot_them_up.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shoot_them_up.Properties;
 
 namespace player.Model
 {
     public class bone_pile
     {
         //variables
-        public int x;                                 
-        public int y;                                                         
+        public int x;
+        public int y;
         public int live = 3;
         public int height;
         public int width;
@@ -51,13 +43,13 @@ namespace player.Model
             width -= 10;
             //si touché 5x ou plus, il se casse
             if (hitcounter >= 5)
-            {   
+            {
                 //si c'est le joueur qui l'as cassé, il perd 200 de score
                 if (player)
                 {
                     GameSpace.Score -= 200;
                 }
-              
+
             }
         }
     }

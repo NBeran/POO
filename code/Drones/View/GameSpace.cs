@@ -1,10 +1,6 @@
 using player.Helpers;
-using player.Helpers;
-using player.Model;
 using player.Model;
 using shoot_them_up.Properties;
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 
 namespace player
 {
@@ -99,6 +95,7 @@ namespace player
             //affiche l'écran d'accueil si le jeu vient de se lancer
             if (gamejustlunch)
             {
+
                 airspace.Graphics.Clear(Color.Orange);
                 airspace.Graphics.DrawImage(Resources.Lobby, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
                 airspace.Render();
@@ -113,7 +110,6 @@ namespace player
             //affiche l'écran de game over si le joueur est mort
             else if (gameover)
             {
-
                 airspace.Graphics.Clear(Color.Orange);
                 airspace.Graphics.DrawImage(Resources.backgroud, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
                 airspace.Graphics.DrawString("Vous êtes morts", TextHelpers.StartFont, TextHelpers.writingBrush, Config.AIRSPACEWIDTH / 3 + 35, Config.AIRSPACEHEIGHT / 4);
@@ -299,6 +295,13 @@ namespace player
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
                         wavecount = 0;
                         monsterinterval = 350;
+                        skeletonatks.Clear();
+                        demonatks.Clear();
+                        atk.Clear();
+                        for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
+                        {
+                            defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
+                        }
                         ClearWave();
                         newwave();
                     }
@@ -340,7 +343,7 @@ namespace player
                     {
                         _player.dash();
                     }
-                    
+
                     break;
 
 
@@ -562,7 +565,7 @@ namespace player
         public void newwave()
         {
             //diminue l'intervale entre les monstre, ce qui augmente le nombre de monstre
-            wavecount++;    
+            wavecount++;
             monsterinterval -= 50;
             //regenere touts les nouveaux monstres
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)

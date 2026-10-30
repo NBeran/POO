@@ -1,11 +1,4 @@
-﻿
-using player.Helpers;
-using shoot_them_up.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shoot_them_up.Properties;
 
 namespace player.Model
 {
@@ -33,7 +26,7 @@ namespace player.Model
             this.speed = 25;
         }
 
-        
+
         //méthode pour dessiner l'attaque du démon
         public void Render(BufferedGraphics drawingSpace)
         {

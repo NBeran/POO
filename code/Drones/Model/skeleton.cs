@@ -1,12 +1,5 @@
-﻿
-using player;
-using player.Helpers;
+﻿using player.Helpers;
 using shoot_them_up.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace player.Model
 {
@@ -32,7 +25,7 @@ namespace player.Model
         public int Hp { get => hp; set => hp = value; }
         public static int Height { get => height; set => height = value; }
         public static int Score { get => score; set => score = value; }
-        public bool Down { get => down;  set => down = value; }
+        public bool Down { get => down; set => down = value; }
         public bool Lastleft { get => lastleft; set => lastleft = value; }
         public bool Left { get => left; set => left = value; }
         public bool Right { get => right; set => right = value; }

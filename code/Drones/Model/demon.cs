@@ -1,12 +1,5 @@
-﻿
-using player;
-using player.Helpers;
+﻿using player.Helpers;
 using shoot_them_up.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace player.Model
 {

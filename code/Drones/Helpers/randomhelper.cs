@@ -9,7 +9,7 @@ namespace player.Helpers
         private static Random random = new Random();
 
         //méthode pour choisir un squelette aléatoire dans une liste
-        public static skeleton rndskeleton(List <skeleton> i)
+        public static skeleton rndskeleton(List<skeleton> i)
         {
             int x = random.Next(i.Count);
             return i.ElementAt(x);
