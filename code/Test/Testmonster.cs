@@ -1,5 +1,4 @@
 using player.Model;
-using player.Properties;
 using player;
 using player.Helpers;
 namespace Test;
@@ -135,5 +134,19 @@ public class Testmonster
 
         //Assert
         Assert.IsTrue(!demontest[0].Left && !demontest[0].Lastleft && demontest[0].Down && !test.Right && demontest[0].X == 35 );
+    }
+
+    [TestMethod]
+    public void demon_didnt_die_in_1_hit()
+    {
+        //Arrange
+        GameSpace gamespace = new GameSpace(new Player(10, 10, "test"));
+       gamespace.ClearWave();
+        gamespace.demonwave.Add(new demon(10, 10));
+        gamespace.atk.Add(new PlayerAtk(10, 10));
+        //Act
+        gamespace.checkhit();
+        //Assert
+                Assert.IsTrue(gamespace.demondelete.Count == 0);
     }
 }
