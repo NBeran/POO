@@ -62,7 +62,6 @@ namespace player
         //TODO : renommer tout et enlever le drone
         //TODO : mettre les rapports et jdt dans la doc du github
         //TODO : faire le rapport
-        //TODO : finir le jdt
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         internal List<skeleton> Skeletonwave { get => skeletonwave; set => skeletonwave = value; }
         public static int Score { get => score; set => score = value; }
