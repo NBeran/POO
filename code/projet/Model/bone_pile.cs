@@ -13,6 +13,7 @@ namespace player.Model
         public static int maxheight = 75;
         public static int maxwidth = 100;
         private int hitcounter;
+        public bool isalive = true;
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int Height { get => height; private set => height = value; }
         public int Hitcounter { get => hitcounter; set => hitcounter = value; }

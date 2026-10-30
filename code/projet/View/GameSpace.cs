@@ -59,7 +59,6 @@ namespace player
         BufferedGraphicsContext currentContext;
         BufferedGraphics airspace;
 
-        //TODO : renommer tout et enlever le drone
         //TODO : mettre les rapports et jdt dans la doc du github
         //TODO : faire le rapport
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
