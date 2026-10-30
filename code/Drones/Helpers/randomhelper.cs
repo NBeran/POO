@@ -1,16 +1,21 @@
 ﻿
-using Drones.Model;
+using player.Model;
 
-namespace Drones.Helpers
+namespace player.Helpers
 {
-    internal static class randomhelper
+    public static class randomhelper
     {
+        //variable random pour générer les futurs aléatoires
         private static Random random = new Random();
-        public static skeleton rndskeleton(List <skeleton> i)
+
+        //méthode pour choisir un squelette aléatoire dans une liste
+        public static skeleton rndskeleton(List<skeleton> i)
         {
             int x = random.Next(i.Count);
             return i.ElementAt(x);
         }
+
+        //méthode pour choisir un démon aléatoire dans une liste
         public static demon rnddemon(List<demon> i)
         {
             int x = random.Next(i.Count);

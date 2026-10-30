@@ -16,7 +16,7 @@ namespace player
 
             // Démarrage
 
-            Application.Run(new GameSpace (new Drone(Config.AIRSPACEWIDTH / 2, Config.AIRSPACEHEIGHT, "Joe")));
+            Application.Run(new GameSpace(new Player(Config.AIRSPACEWIDTH / 2, Config.AIRSPACEHEIGHT, "Joe")));
         }
     }
 }

@@ -1,39 +1,53 @@
-﻿using Drones.Properties;
-using player.Helpers;
-using player.Model;
-using System.Runtime.Intrinsics.Arm;
+﻿using player.Helpers;
+using shoot_them_up.Properties;
 
 namespace player
 {
     // Cette partie de la classe Drone définit ce qu'est un drone par un modèle numérique
-    public class Drone
+    public class Player
     {
+        //variables
         public string name;                           // Un nom
         public int x;                                 // Position en X depuis la gauche de l'espace aérien
-        public int y;                                 // Position en Y depuis le haut de l'espace aérien
-        public int speed_x;
-        public int speed_y;                             // Déplacement horizontal
+        public int y;                                 // Position en Y depuis le haut de l'espace aérien                        
         public int live = 3;
-        public int playerheight = 85;
+        private int playerheight = 85;
+        private int dashcooldown = 0;
         public int speed = 20;
         private int cooldawn = 0;
+        private int dashduration = 0;
+        private int dashdurationmax = 3;
 
-        // Déplacement vertical
-        private Random _alea = new Random();
+        //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
+        public int Playerheight { get => playerheight; set => playerheight = value; }
+        public int Dashcooldown { get => dashcooldown; set => dashcooldown = value; }
+        public int Dashduration { get => dashduration; set => dashduration = value; }
 
         // Constructeur
-        public Drone(int x, int y, string name)
+        public Player(int x, int y, string name)
         {
             this.x = x;
             this.y = y;
             this.name = name;
         }
 
-        // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
-        // que 'interval' millisecondes se sont écoulées
+
         public void Update(int interval, bool haut, bool bas, bool gauche, bool droite)
         {
             cooldawn++;
+
+            if (dashduration > 0)
+            {
+
+                dashduration--;
+                if (dashduration == 0)
+                    speed = 20;
+            }
+            else if (dashcooldown < 100)
+            {
+                dashcooldown++;
+            }
+
             x = x + (droite ? speed : 0);
             x = x - (gauche ? speed : 0);
             y = y + (bas ? speed : 0);
@@ -42,18 +56,7 @@ namespace player
 
         }
 
-        // Choisit une nouvelle vitesse aléatoirement
 
-
-        /// //////////////////////////////////////////////////////////////////////////////
-        //  
-        //  Ce qui suit appartient à la vue, pas au modèle.
-        //  Il aurait été préférable de séparer la déclaration de la classe Drone en deux,
-        //  Nous regroupons tout ici pour simplifier
-        //  
-        /// //////////////////////////////////////////////////////////////////////////////
-
-        private Pen droneBrush = new Pen(new SolidBrush(Color.Purple), 3);
 
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
@@ -69,7 +72,7 @@ namespace player
         }
 
 
-
+        //méthode qui vérifie si le drone est dans les limites de l'espace aérien
         public void verifiyborder()
         {
             if (x < 0) x = 0;
@@ -77,13 +80,15 @@ namespace player
             if (x > Config.AIRSPACEWIDTH - playerheight) x = Config.AIRSPACEWIDTH - playerheight;
             if (y > Config.AIRSPACEHEIGHT - playerheight) y = Config.AIRSPACEHEIGHT - playerheight;
         }
-
-        public void die(BufferedGraphics airspace, int interval)
+        public void dash()
         {
-            
-            while (true) {
-                
+            if (dashcooldown >= 100 && dashduration == 0)
+            {
+                speed = 100;
+                dashcooldown = 0;
+                dashduration = dashdurationmax;
             }
         }
+
     }
 }
