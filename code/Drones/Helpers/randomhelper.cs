@@ -1,7 +1,7 @@
 ﻿
-using Drones.Model;
+using player.Model;
 
-namespace Drones.Helpers
+namespace player.Helpers
 {
     public static class randomhelper
     {

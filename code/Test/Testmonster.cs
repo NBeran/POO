@@ -1,5 +1,5 @@
-using Drones.Model;
-using Drones.Properties;
+using player.Model;
+using player.Properties;
 using player;
 using player.Helpers;
 namespace Test;

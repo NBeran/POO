@@ -1,5 +1,6 @@
-﻿using Drones.Properties;
+﻿
 using player;
+using shoot_them_up.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drones.Model
+namespace player.Model
 {
     public class bone_pile
     {

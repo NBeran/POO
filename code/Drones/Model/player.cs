@@ -1,9 +1,10 @@
-﻿using Drones.Model;
-using Drones.Properties;
+﻿using player.Model;
+
 using player.Helpers;
 using player.Model;
 using System.Runtime.Intrinsics.Arm;
 using static System.Formats.Asn1.AsnWriter;
+using shoot_them_up.Properties;
 
 namespace player
 {

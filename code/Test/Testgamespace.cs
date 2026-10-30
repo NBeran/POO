@@ -1,4 +1,4 @@
-using Drones.Model;
+using player.Model;
 
 using player.Helpers;
 using player;
@@ -10,6 +10,7 @@ namespace Test;
 [DoNotParallelize]
 public class Testgamespace
 {
+    [TestInitialize]
     public void Setup()
     {
         GameSpace.defense.Clear();

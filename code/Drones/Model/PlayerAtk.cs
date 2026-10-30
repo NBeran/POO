@@ -1,4 +1,6 @@
-﻿using Drones.Properties;
+﻿
+
+using shoot_them_up.Properties;
 
 namespace player.Model
 {

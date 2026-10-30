@@ -1,5 +1,5 @@
-using Drones.Helpers;
-using Drones.Model;
+using player.Helpers;
+using player.Model;
 using player.Helpers;
 using player.Model;
 using System.Collections.Generic;

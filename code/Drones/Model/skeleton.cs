@@ -1,13 +1,14 @@
-﻿using Drones.Properties;
+﻿
 using player;
 using player.Helpers;
+using shoot_them_up.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drones.Model
+namespace player.Model
 {
     public class skeleton
     {

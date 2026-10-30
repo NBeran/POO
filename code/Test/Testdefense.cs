@@ -1,4 +1,4 @@
-using Drones.Model;
+using player.Model;
 using player;
 namespace Test;
 
@@ -10,12 +10,14 @@ public class Testdefense
     public void Setup()
     {
         GameSpace.defense.Clear();
+        GameSpace.Score = 0;
     }
 
     [TestCleanup]
     public void Cleanup()
     {
         GameSpace.defense.Clear();
+        GameSpace.Score = 0;
     }
     [TestMethod]
     public void defense_shrink_and_count_when_hit()

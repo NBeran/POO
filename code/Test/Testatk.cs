@@ -1,6 +1,6 @@
 namespace Test;
 using player.Model;
-using Drones.Model;
+using player.Model;
 
 
 [TestClass]
