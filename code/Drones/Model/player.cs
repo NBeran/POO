@@ -20,7 +20,8 @@ namespace player
 
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int Playerheight { get => playerheight; set => playerheight = value; }
-        public int Dashcooldown { get => dashcooldown; private set => dashcooldown = value; }
+        public int Dashcooldown { get => dashcooldown; set => dashcooldown = value; }
+        public int Dashduration { get => dashduration; set => dashduration = value; }
 
         // Constructeur
         public Player(int x, int y, string name)
