@@ -21,6 +21,7 @@ namespace player
         public static bool right = false;
         public static bool left = false;
         public static bool up = false;
+        public static bool space = false;
         public static bool down = false;
         public static bool shooting = false;
         private bool gamejustlunch = true;
@@ -64,6 +65,7 @@ namespace player
         public int Skeletoncooldawn { get => skeletoncooldawn; set => skeletoncooldawn = value; }
         public static skeleton Skeletonshooting { get => skeletonshooting; set => skeletonshooting = value; }
         public static demon Demonshooting { get => demonshooting; set => demonshooting = value; }
+        public int Demoninterval { get => demoninterval; set => demoninterval = value; }
 
 
 
@@ -197,6 +199,10 @@ namespace player
                     newwave();
                 }
             }
+            if (space)
+            {
+                shoot();
+            }
             //augmente les différents cooldown du tir du joueur et des ennemis
             cooldawn++;
             skeletoncooldawn += skeletonwave.Count;
@@ -320,7 +326,7 @@ namespace player
                     //tire si le joueur appuie sur espace et que le jeu est en cours
                     else
                     {
-                        shoot();
+                        space = true;
                     }
 
                     break;
@@ -377,6 +383,9 @@ namespace player
                     break;
                 case Keys.Left:
                     left = false;
+                    break;
+                case Keys.Space:
+                    space = false;
                     break;
                 case Keys.E:
                     _player.dash();
@@ -579,8 +588,7 @@ namespace player
             olddemon = 0;
             //diminue l'intervale entre les monstre, ce qui augmente le nombre de monstre
             wavecount++;
-            if (wavecount % 2 == 0)
-            {
+
                 foreach (skeleton s in skeletonwave)
                 {
                     s.Speed += 3;
@@ -589,7 +597,7 @@ namespace player
                 {
                     d.Speed += 3;
                 }
-            }
+            
             demoninterval -= 50;
             //regenere touts les nouveaux monstres
             for (int i = 100; i <= Config.AIRSPACEWIDTH; i += demoninterval)

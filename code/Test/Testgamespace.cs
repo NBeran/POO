@@ -204,13 +204,13 @@ public class Testgamespace
         //Arrange
         GameSpace gamespace = new GameSpace(new Player(10, 10, "test"));
         gamespace.ClearWave();
-        gamespace.Monsterinterval = 350;
+        gamespace.Demoninterval = 350;
 
         //Act
         gamespace.newwave();
 
         //Assert
-        Assert.IsTrue(gamespace.Monsterinterval == 300 && gamespace.demonwave.Count == 5 && gamespace.skeletonwave.Count == 5);
+        Assert.IsTrue(gamespace.Demoninterval == 300 && gamespace.demonwave.Count == 5 && gamespace.skeletonwave.Count == 5);
     }
 
     [TestMethod]

@@ -68,9 +68,9 @@ public class Testmonster
         {
             skeletontest[0].update(1);
         }
-
+        
         //Assert
-        Assert.IsTrue(skeletontest[0].Left && skeletontest[0].Lastleft && skeletontest[0].Y == 35 && !skeletontest[0].Down);
+        Assert.IsTrue(skeletontest[0].Left && skeletontest[0].Lastleft && skeletontest[0].Y == 60 && !skeletontest[0].Down);
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class Testmonster
         }
 
         //Assert
-        Assert.IsTrue(demontest[0].Left && demontest[0].Lastleft && demontest[0].Y == 35 && !demontest[0].Down);
+        Assert.IsTrue(demontest[0].Left && demontest[0].Lastleft && demontest[0].Y == 60 && !demontest[0].Down);
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class Testmonster
         }
 
         //Assert
-        Assert.IsTrue(!skeletontest[0].Left && !skeletontest[0].Lastleft && skeletontest[0].X == 35 && skeletontest[0].Down && !test.Right);
+        Assert.IsTrue(!skeletontest[0].Left && !skeletontest[0].Lastleft && skeletontest[0].X == 60 && skeletontest[0].Down && !test.Right);
     }
 
     [TestMethod]
@@ -135,7 +135,7 @@ public class Testmonster
         }
 
         //Assert
-        Assert.IsTrue(!demontest[0].Left && !demontest[0].Lastleft && demontest[0].Down && !test.Right && demontest[0].X == 35);
+        Assert.IsTrue(!demontest[0].Left && !demontest[0].Lastleft && demontest[0].Down && !test.Right && demontest[0].X == 60);
     }
 
     [TestMethod]
