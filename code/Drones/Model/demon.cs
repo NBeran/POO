@@ -6,6 +6,7 @@ namespace player.Model
     public class demon
     {
         //variables
+
         private int x;
         private int y;
         private int speed;

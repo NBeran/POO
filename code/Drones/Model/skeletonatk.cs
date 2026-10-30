@@ -4,7 +4,7 @@ namespace player.Model
 {
     public class skeletonatk
     {
-
+        // TODO : ajouter une bool pour tous les monstres et projectiles pour savoir si il est mort 
         //variables
         private int x;
         private int y;

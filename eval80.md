@@ -8,7 +8,5 @@ Côté jeu, l'avancement est bon : 22 ennemis (11 démons, 11 squelettes) qui de
 
 1. **Remettre un rapport et un journal de travail dans `doc/`** (exigence du CdC et du handbook).
 2. Remplacer les exceptions par des booléens ou des propriétés (`IsOutOfScreen`, `IsDestroyed`) et supprimer avec une boucle à l'envers.
-3. Écran de fin (victoire et défaite) sans boucle bloquante : arrêter le timer et afficher un message.
 4. DRY ! Comparez vos classes `Demon` et `Skeleton` ainsi que `Demonatk` et `Skeletonatk`. Trouvez une manière de fusionner ces paires en une seule classe pour éliminer les répétitions.
 5. Renommer `Drone` en `Player`, plus généralement tout ce qui reste du code de base, et appliquer les conventions C#.
-6. Ajouter des tests unitaires

@@ -33,6 +33,10 @@ namespace player
         private bool gameover = false;
         private int wavecount = 0;
 
+
+        // TODO : faire une liste interface pour tous les projectils en 1 foix
+        //TODO : faire une liste interface pour tous les monstres en 1 foix
+        //TODO : changer l edraw io avec le nouveau diagramme
         //liste des objets
         public List<PlayerAtk> atk = new List<PlayerAtk>();
         public List<PlayerAtk> atkdelete = new List<PlayerAtk>();
@@ -55,6 +59,10 @@ namespace player
         BufferedGraphicsContext currentContext;
         BufferedGraphics airspace;
 
+        //TODO : renommer tout et enlever le drone
+        //TODO : mettre les rapports et jdt dans la doc du github
+        //TODO : faire le rapport
+        //TODO : finir le jdt
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         internal List<skeleton> Skeletonwave { get => skeletonwave; set => skeletonwave = value; }
         public static int Score { get => score; set => score = value; }
@@ -550,6 +558,7 @@ namespace player
         //supprime tous les objets qui doivent l'être
         public void removeobj()
         {
+            //TODO : changer cette fonction avec les listes d'interaces et les bool de mort des objects
             foreach (skeleton a in skeletondelete)
             {
                 skeletonwave.Remove(a);
