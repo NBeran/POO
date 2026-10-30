@@ -11,6 +11,7 @@ namespace Drones.Model
 {
     public class skeleton
     {
+        //variables
         private int x;
         private int y;
         private int speed;
@@ -22,6 +23,8 @@ namespace Drones.Model
         private bool down = true;
         private int walktime = 0;
         private bool lastleft = false;
+
+        //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }
         public int Speed { get => speed; set => speed = value; }
@@ -34,6 +37,7 @@ namespace Drones.Model
         public bool Right { get => right; set => right = value; }
         public int Walktime { get => walktime; set => walktime = value; }
 
+        //constructeur
         public skeleton(int x, int y)
         {
             this.x = x;
@@ -41,12 +45,17 @@ namespace Drones.Model
             this.speed = 1;
             this.hp = 1;
         }
+
+        //méthode pour dessiner le squelette
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.skeleton, x, y, height, height);
         }
+
+        //méthode pour mettre à jour la position du squelette
         public void update(int interval)
         {
+            //si le squelette atteint la hauteur des defenses, il commence a mettre des dégats
             if (y + height >= Config.limitheight)
             {
                 if (GameSpace.Defense.Count >= 1)
@@ -55,8 +64,10 @@ namespace Drones.Model
                 }
 
             }
+            //se deplace a gauche, en bas, a droite, puis en bas, et recommence
             else
             {
+                //marche a gauche puis en bas
                 if (left)
                 {
                     walktime++;
@@ -73,6 +84,7 @@ namespace Drones.Model
 
 
                 }
+                //marche a droite puis en bas
                 else if (right)
                 {
                     walktime++;
@@ -90,6 +102,7 @@ namespace Drones.Model
                     }
 
                 }
+                //marche en bas puis a gauche ou a droite selon la derniere direction
                 else if (down)
                 {
                     y += speed;

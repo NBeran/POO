@@ -11,6 +11,7 @@ namespace Drones.Model
 {
     public class demon
     {
+        //variables
         private int x;
         private int y;
         private int speed;
@@ -22,6 +23,8 @@ namespace Drones.Model
         private bool down = true;
         private int walktime = 0;
         private bool lastleft = false;
+
+        //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }
         public int Speed { get => speed; set => speed = value; }
@@ -34,6 +37,8 @@ namespace Drones.Model
         public int Walktime { get => walktime; set => walktime = value; }
         public bool Lastleft { get => lastleft; set => lastleft = value; }
 
+
+        //constructeur
         public demon(int x, int y)
         {
             this.x = x;
@@ -41,13 +46,18 @@ namespace Drones.Model
             this.speed = 1;
             this.hp = 2;
         }
+
+        //méthode pour dessiner le démon sur l'espace de dessin
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.demon, x, y, height, height);
         }
+
+        //méthode pour mettre à jour la position du démon
         public void update(int interval)
         {
 
+            //si le demon atteint la hauteur des defenses, il commences a les attaquer
             if (y + height >= Config.limitheight)
             {
                 if (GameSpace.Defense.Count >= 1)
@@ -56,8 +66,11 @@ namespace Drones.Model
                 }
 
             }
+            //se deplace a gauche puis en bas , puis a droite puis en bas, et ainsi de suite
             else
             {
+
+                //marche a gauche puis change de dirrection vers le bas
                 if (left)
                 {
                     walktime++;
@@ -74,6 +87,8 @@ namespace Drones.Model
 
 
                 }
+
+                //marche a droite puis change de dirrection vers le bas
                 else if (right)
                 {
                     walktime++;
@@ -91,6 +106,7 @@ namespace Drones.Model
                     }
 
                 }
+                //marche vers le bas puis change de dirrection vers la gauche ou la droite selon la derniere direction
                 else if (down)
                 {
                     y += speed;

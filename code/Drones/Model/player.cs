@@ -10,18 +10,17 @@ namespace player
     // Cette partie de la classe Drone définit ce qu'est un drone par un modèle numérique
     public class Player
     {
+        //variables
         public string name;                           // Un nom
         public int x;                                 // Position en X depuis la gauche de l'espace aérien
-        public int y;                                 // Position en Y depuis le haut de l'espace aérien
-        public int speed_x;
-        public int speed_y;                             // Déplacement horizontal
+        public int y;                                 // Position en Y depuis le haut de l'espace aérien                        
         public int live = 3;
         private int playerheight = 85;
         public int speed = 20;
         private int cooldawn = 0;
 
-        // Déplacement vertical
-        private Random _alea = new Random();
+        //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
+        public int Playerheight { get => playerheight; set => playerheight = value; }
 
         // Constructeur
         public Player(int x, int y, string name)
@@ -44,20 +43,7 @@ namespace player
 
         }
 
-        // Choisit une nouvelle vitesse aléatoirement
 
-
-        /// //////////////////////////////////////////////////////////////////////////////
-        //  
-        //  Ce qui suit appartient à la vue, pas au modèle.
-        //  Il aurait été préférable de séparer la déclaration de la classe Drone en deux,
-        //  Nous regroupons tout ici pour simplifier
-        //  
-        /// //////////////////////////////////////////////////////////////////////////////
-
-        private Pen droneBrush = new Pen(new SolidBrush(Color.Purple), 3);
-
-        public int Playerheight { get => playerheight; set => playerheight = value; }
 
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
@@ -73,7 +59,7 @@ namespace player
         }
 
 
-
+        //méthode qui vérifie si le drone est dans les limites de l'espace aérien
         public void verifiyborder()
         {
             if (x < 0) x = 0;

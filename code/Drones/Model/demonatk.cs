@@ -10,17 +10,21 @@ namespace Drones.Model
 {
     public class demonatk
     {
+        //variables
         private int x;
         private int y;
         private int speed;
         private static int width = 45;
         private static int height = 45;
+
+        //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int X { get => x; private set => x = value; }
         public int Y { get => y; private set => y = value; }
         public int Speed { get => speed; private set => speed = value; }
         public static int Width { get => width; set => width = value; }
         public static int Height { get => height; set => height = value; }
 
+        //constructeur
         public demonatk(int x, int y)
         {
             this.x = x;
@@ -28,11 +32,14 @@ namespace Drones.Model
             this.speed = 25;
         }
 
-
+        
+        //méthode pour dessiner l'attaque du démon
         public void Render(BufferedGraphics drawingSpace)
         {
             drawingSpace.Graphics.DrawImage(Resources.fireball, x, y, width, height);
         }
+
+        //méthode pour mettre à jour la position de l'attaque du démon
         public void update(int interval)
         {
             y += speed;
