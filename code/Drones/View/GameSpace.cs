@@ -32,6 +32,7 @@ namespace player
         private static skeleton skeletonshooting;
         private static demon demonshooting;
         private bool gameover = false;
+        private int wavecount = 0;
 
         //liste des objets
         public List<PlayerAtk> atk = new List<PlayerAtk>();
@@ -130,6 +131,7 @@ namespace player
                 airspace.Graphics.Clear(Color.IndianRed);
                 airspace.Graphics.DrawImage(Resources.backgroud, 0, 0, Config.AIRSPACEWIDTH, Config.AIRSPACEHEIGHT);
                 airspace.Graphics.DrawString("score : " + score.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, 15);
+                airspace.Graphics.DrawString("vague : " + wavecount.ToString(), TextHelpers.drawFont, TextHelpers.writingBrush, 15, 65);
                 //airspace.Graphics.DrawString("vague : " + (Config.AIRSPACEWIDTH - monsterinterval) / 50, TextHelpers.drawFont, TextHelpers.writingBrush, 15, 30);
                 dashpourcent = _player.Dashcooldown;
                 if (dashpourcent >= 100)
@@ -295,6 +297,7 @@ namespace player
                         score = 0;
                         _player.x = Config.AIRSPACEWIDTH / 2;
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
+                        wavecount = 0;
                         monsterinterval = 350;
                         ClearWave();
                         newwave();
@@ -559,6 +562,7 @@ namespace player
         public void newwave()
         {
             //diminue l'intervale entre les monstre, ce qui augmente le nombre de monstre
+            wavecount++;    
             monsterinterval -= 50;
             //regenere touts les nouveaux monstres
             for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
