@@ -2,6 +2,7 @@ using player.Helpers;
 using player.Model;
 using shoot_them_up.Properties;
 
+
 namespace player
 {
     // La classe GameSpace représente le territoire au dessus duquel les drones peuvent voler
@@ -15,7 +16,7 @@ namespace player
         private int demoncooldown = 0;
         private int cooldawn = 0;
         private int wavecooldawn = 0;
-        private int monsterinterval = 350;
+        private int demoninterval = 350;
         private int dashpourcent = 0;
         public static bool right = false;
         public static bool left = false;
@@ -24,6 +25,7 @@ namespace player
         public static bool shooting = false;
         private bool gamejustlunch = true;
         private bool seekeybin = false;
+        private int olddemon = 0;
         private static int score = 0;
         private static skeleton skeletonshooting;
         private static demon demonshooting;
@@ -60,7 +62,9 @@ namespace player
         public int Cooldawn { get => cooldawn; set => cooldawn = value; }
         public int Demoncooldown { get => demoncooldown; set => demoncooldown = value; }
         public int Skeletoncooldawn { get => skeletoncooldawn; set => skeletoncooldawn = value; }
-        public int Monsterinterval { get => monsterinterval; set => monsterinterval = value; }
+        public static skeleton Skeletonshooting { get => skeletonshooting; set => skeletonshooting = value; }
+        public static demon Demonshooting { get => demonshooting; set => demonshooting = value; }
+
 
 
 
@@ -294,13 +298,21 @@ namespace player
                         _player.x = Config.AIRSPACEWIDTH / 2;
                         _player.y = (Config.AIRSPACEHEIGHT - Config.limitheight) / 2;
                         wavecount = 0;
-                        monsterinterval = 350;
+                        demoninterval = 350;
                         skeletonatks.Clear();
                         demonatks.Clear();
                         atk.Clear();
                         for (int i = 0; i <= Config.AIRSPACEWIDTH; i += 300)
                         {
                             defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
+                        }
+                        foreach (skeleton s in skeletonwave)
+                        {
+                            s.Speed = 2;
+                        }
+                        foreach (demon d in demonwave)
+                        {
+                            d.Speed = 2;
                         }
                         ClearWave();
                         newwave();
@@ -564,17 +576,27 @@ namespace player
 
         public void newwave()
         {
+            olddemon = 0;
             //diminue l'intervale entre les monstre, ce qui augmente le nombre de monstre
             wavecount++;
-            monsterinterval -= 50;
+            if (wavecount % 2 == 0)
+            {
+                foreach (skeleton s in skeletonwave)
+                {
+                    s.Speed += 3;
+                }
+                foreach (demon d in demonwave)
+                {
+                    d.Speed += 3;
+                }
+            }
+            demoninterval -= 50;
             //regenere touts les nouveaux monstres
-            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
+            for (int i = 100; i <= Config.AIRSPACEWIDTH; i += demoninterval)
             {
                 demonwave.Add(new demon(i, 100));
-            }
-            for (int i = 0; i <= Config.AIRSPACEWIDTH; i += monsterinterval)
-            {
-                skeletonwave.Add(new skeleton(i, 0));
+                skeletonwave.Add(new skeleton((int)((olddemon + i) / 2), 0));
+                olddemon = i;
             }
             //verifie que aucun n'as été créé en dehors de l'écran
             isinscreen();

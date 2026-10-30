@@ -37,7 +37,7 @@ namespace player.Model
         {
             this.x = x;
             this.y = y;
-            this.speed = 1;
+            this.speed = 2;
             this.hp = 2;
         }
 
