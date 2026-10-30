@@ -1,13 +1,17 @@
-﻿using player.Helpers;
+﻿using player;
+using player.Helpers;
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using player.Model;
 namespace Test;
 
 
-    [TestClass]
-    public sealed class TestRandomhelper
-    {
+[TestClass]
+public sealed class TestRandomhelper
+{
     [TestMethod]
-    public void rndskeleton_actualy_give_you_a_skeleton_in_the_liste() {
+    public void rndskeleton_actualy_give_you_a_skeleton_in_the_liste()
+    {
 
         {
             // Arrange
@@ -25,25 +29,25 @@ namespace Test;
             Assert.IsTrue(skeletontest.Contains(result));
         }
     }
-        [TestMethod]
-        public void rnddemon_actualy_give_you_a_skeleton_in_the_liste()
+    [TestMethod]
+    public void rnddemon_actualy_give_you_a_skeleton_in_the_liste()
+    {
+
         {
-
+            // Arrange
+            List<demon> demontest = new List<demon>();
+            for (int i = 0; i < 10; i++)
             {
-                // Arrange
-                List<demon> demontest = new List<demon>();
-                for (int i = 0; i < 10; i++)
-                {
-                    demon d = new demon(i, i);
-                    demontest.Add(d);
-                }
-
-                // Act
-                demon result = randomhelper.rnddemon(demontest);    
-                // Assert
-                Assert.IsTrue(demontest.Contains(result));
+                demon d = new demon(i, i);
+                demontest.Add(d);
             }
+
+            // Act
+            demon result = randomhelper.rnddemon(demontest);
+            // Assert
+            Assert.IsTrue(demontest.Contains(result));
         }
     }
+}
 
 

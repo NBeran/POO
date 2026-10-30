@@ -1,9 +1,8 @@
-using player.Model;
-
-using player.Helpers;
 using player;
+using player.Helpers;
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using player.Model;
-
 namespace Test;
 
 [TestClass]
@@ -236,7 +235,7 @@ public class Testgamespace
         GameSpace.defense.Clear();
         gamespace.skeletonwave.Add(new skeleton(-100, 10));
         gamespace.skeletonwave.Add(new skeleton(Config.AIRSPACEWIDTH + 100, 10));
-        gamespace.skeletonwave.Add(new skeleton(100, - 100));
+        gamespace.skeletonwave.Add(new skeleton(100, -100));
         gamespace.skeletonwave.Add(new skeleton(100, Config.AIRSPACEHEIGHT + 100));
 
         gamespace.demonwave.Add(new demon(-100, 10));

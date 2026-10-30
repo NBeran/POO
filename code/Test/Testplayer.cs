@@ -1,9 +1,7 @@
-using player.Model;
 using player;
 using player.Helpers;
 using System;
-using System.Windows.Forms;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Test;
 
 [TestClass]
