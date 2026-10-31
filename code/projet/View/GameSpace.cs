@@ -40,7 +40,7 @@ namespace player
 
 
         //TODO : faire une liste interface pour tous les projectils en 1 foix
-        //TODO : changer l edraw io avec le nouveau diagramme
+        
         //liste des objets
         public List<IMonster> monsters = new List<IMonster>();
 
@@ -63,8 +63,8 @@ namespace player
         BufferedGraphicsContext currentContext;
         BufferedGraphics airspace;
 
-        //TODO : mettre les rapports et jdt dans la doc du github
-        //TODO : faire le rapport
+        
+        
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         
         public static int Score { get => score; set => score = value; }
