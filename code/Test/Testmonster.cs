@@ -144,11 +144,11 @@ public class Testmonster
         //Arrange
         GameSpace gamespace = new GameSpace(new Player(10, 10, "test"));
         gamespace.ClearWave();
-        gamespace.demonwave.Add(new demon(10, 10));
+        gamespace.monsters.Add(new demon(10, 10));
         gamespace.atk.Add(new PlayerAtk(10, 10));
         //Act
         gamespace.checkhit();
         //Assert
-        Assert.IsTrue(gamespace.demondelete.Count == 0);
+        Assert.IsTrue(gamespace.monsters.Count == 1);
     }
 }

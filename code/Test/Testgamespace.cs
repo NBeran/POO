@@ -3,6 +3,7 @@ using player.Helpers;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using player.Model;
+using shoot_them_up.Model;
 namespace Test;
 
 [TestClass]
@@ -79,13 +80,13 @@ public class Testgamespace
     {
         //Arrange
         GameSpace gamespace = new GameSpace(new Player(10, 10, "test"));
-        gamespace.atk.Add(new PlayerAtk(10, -100));
-        gamespace.demonatks.Add(new demonatk(10, Config.AIRSPACEHEIGHT + demonatk.Height));
-        gamespace.skeletonatks.Add(new skeletonatk(10, Config.AIRSPACEHEIGHT + skeletonatk.Height));
+        gamespace.atk.Add(new PlayerAtk(100000, -100));
+        gamespace.demonatks.Add(new demonatk(1000000, Config.AIRSPACEHEIGHT + demonatk.Height));
+        gamespace.skeletonatks.Add(new skeletonatk(100000, Config.AIRSPACEHEIGHT + skeletonatk.Height));
         //Act
-        gamespace.checkhit();
+        gamespace.isinscreen();
         //Assert
-        Assert.IsTrue(gamespace.demonatkdelete.Count == 1 && gamespace.skeletonatksdelete.Count == 1 && gamespace.atkdelete.Count == 1);
+        Assert.IsTrue(gamespace.atk.Count == 0 && gamespace.skeletonatks.Count == 0 && gamespace.demonatks.Count == 0);
     }
 
     [TestMethod]
@@ -101,9 +102,12 @@ public class Testgamespace
         gamespace.atk.Add(new PlayerAtk(10, 400));
         gamespace.atk.Add(new PlayerAtk(10, 500));
 
-        gamespace.skeletonwave.Add(new skeleton(10, 100));
-        gamespace.demonwave.Add(new demon(10, 200));
-        gamespace.demonwave[0].Hp = 1;
+        gamespace.monsters.Add(new skeleton(10, 100));
+        gamespace.monsters.Add(new demon(10, 200));
+        foreach (demon d in gamespace.monsters.OfType<demon>())
+        {
+            d.Hp = 1;
+        }
         gamespace.skeletonatks.Add(new skeletonatk(10, 300));
         gamespace.demonatks.Add(new demonatk(10, 400));
         GameSpace.defense.Add(new bone_pile(10, 500));
@@ -114,7 +118,12 @@ public class Testgamespace
         gamespace.checkhit();
 
         //Assert
-        Assert.IsTrue(gamespace.atkdelete.Count == 5 && gamespace.skeletondelete.Count == 1 && gamespace.demondelete.Count == 1 && gamespace.skeletonatksdelete.Count == 1 && gamespace.demonatkdelete.Count == 1 && gamespace.defenseadelete.Count == 1 && GameSpace.Score == 250);
+        Assert.IsTrue(gamespace.atkdelete.Count == 5  && gamespace.skeletonatksdelete.Count == 1 && gamespace.demonatkdelete.Count == 1 && gamespace.defenseadelete.Count == 1 && GameSpace.Score == 250);
+
+        foreach (IMonster s in gamespace.monsters)
+        {
+            Assert.IsFalse(s.isalive);
+        }
 
 
     }
@@ -179,14 +188,17 @@ public class Testgamespace
         gamespace.atk.Add(new PlayerAtk(10, 10));
         gamespace.atkdelete.Add(gamespace.atk[0]);
 
-        gamespace.skeletonwave.Add(new skeleton(10, 10));
-        gamespace.skeletondelete.Add(gamespace.skeletonwave[0]);
+        gamespace.monsters.Add(new skeleton(10, 10));
 
         gamespace.skeletonatks.Add(new skeletonatk(10, 10));
         gamespace.skeletonatksdelete.Add(gamespace.skeletonatks[0]);
 
-        gamespace.demonwave.Add(new demon(10, 10));
-        gamespace.demondelete.Add(gamespace.demonwave[0]);
+        gamespace.monsters .Add(new demon(10, 10));
+        foreach (IMonster d in gamespace.monsters)
+        {
+            d.isalive = false;
+        }
+
 
         GameSpace.defense.Add(new bone_pile(10, 10));
         gamespace.defenseadelete.Add(GameSpace.defense[0]);
@@ -195,7 +207,7 @@ public class Testgamespace
         gamespace.removeobj();
 
         //Assert
-        Assert.IsTrue(gamespace.atk.Count == 0 && gamespace.skeletonwave.Count == 0 && gamespace.skeletonatks.Count == 0 && gamespace.demonwave.Count == 0 && GameSpace.defense.Count == 0);
+        Assert.IsTrue(gamespace.atk.Count == 0 && gamespace.monsters.Count == 0 && gamespace.skeletonatks.Count == 0 && GameSpace.defense.Count == 0);
     }
 
     [TestMethod]
@@ -210,7 +222,7 @@ public class Testgamespace
         gamespace.newwave();
 
         //Assert
-        Assert.IsTrue(gamespace.Demoninterval == 300 && gamespace.demonwave.Count == 5 && gamespace.skeletonwave.Count == 5);
+        Assert.IsTrue(gamespace.Demoninterval == 300 && gamespace.monsters.Count == 10);
     }
 
     [TestMethod]
@@ -223,7 +235,7 @@ public class Testgamespace
         gamespace.ClearWave();
 
         //Assert
-        Assert.IsTrue(gamespace.demonwave.Count == 0 && gamespace.skeletonwave.Count == 0);
+        Assert.IsTrue(gamespace.monsters.Count == 0 );
     }
 
     [TestMethod]
@@ -233,36 +245,27 @@ public class Testgamespace
         GameSpace gamespace = new GameSpace(new Player(10, 10, "test"));
         gamespace.ClearWave();
         GameSpace.defense.Clear();
-        gamespace.skeletonwave.Add(new skeleton(-100, 10));
-        gamespace.skeletonwave.Add(new skeleton(Config.AIRSPACEWIDTH + 100, 10));
-        gamespace.skeletonwave.Add(new skeleton(100, -100));
-        gamespace.skeletonwave.Add(new skeleton(100, Config.AIRSPACEHEIGHT + 100));
 
-        gamespace.demonwave.Add(new demon(-100, 10));
-        gamespace.demonwave.Add(new demon(Config.AIRSPACEWIDTH + 100, 10));
-        gamespace.demonwave.Add(new demon(100, -100));
-        gamespace.demonwave.Add(new demon(100, Config.AIRSPACEHEIGHT + 100));
-
-        gamespace.demonatks.Add(new demonatk(-100, 10));
+        gamespace.demonatks.Add(new demonatk(-101110, 10));
         gamespace.demonatks.Add(new demonatk(Config.AIRSPACEWIDTH + 100, 10));
-        gamespace.demonatks.Add(new demonatk(100, -100));
-        gamespace.demonatks.Add(new demonatk(100, Config.AIRSPACEHEIGHT + 100));
+        gamespace.demonatks.Add(new demonatk(101110, -100));
+        gamespace.demonatks.Add(new demonatk(101110, Config.AIRSPACEHEIGHT + 100));
 
-        gamespace.skeletonatks.Add(new skeletonatk(-100, 10));
+        gamespace.skeletonatks.Add(new skeletonatk(-1111100, 10));
         gamespace.skeletonatks.Add(new skeletonatk(Config.AIRSPACEWIDTH + 100, 10));
-        gamespace.skeletonatks.Add(new skeletonatk(100, -100));
-        gamespace.skeletonatks.Add(new skeletonatk(100, Config.AIRSPACEHEIGHT + 100));
+        gamespace.skeletonatks.Add(new skeletonatk(101110, -100));
+        gamespace.skeletonatks.Add(new skeletonatk(101110, Config.AIRSPACEHEIGHT + 100));
 
-        gamespace.atk.Add(new PlayerAtk(-100, 10));
+        gamespace.atk.Add(new PlayerAtk(-101110, 10));
         gamespace.atk.Add(new PlayerAtk(Config.AIRSPACEWIDTH + 100, 10));
-        gamespace.atk.Add(new PlayerAtk(100, -100));
-        gamespace.atk.Add(new PlayerAtk(100, Config.AIRSPACEHEIGHT + 100));
+        gamespace.atk.Add(new PlayerAtk(100, -101110));
+        gamespace.atk.Add(new PlayerAtk(111100, Config.AIRSPACEHEIGHT + 100));
 
         //Act
         gamespace.isinscreen();
 
         //Assert
-        Assert.IsTrue(gamespace.demonwave.Count == 0 && gamespace.skeletonwave.Count == 0 && gamespace.demonatks.Count == 0 && gamespace.skeletonatks.Count == 0 && gamespace.atk.Count == 0);
+        Assert.IsTrue(gamespace.demonatks.Count == 0 && gamespace.skeletonatks.Count == 0 && gamespace.atk.Count == 0);
     }
 
 }

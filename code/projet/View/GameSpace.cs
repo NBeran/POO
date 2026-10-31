@@ -1,5 +1,6 @@
 using player.Helpers;
 using player.Model;
+using shoot_them_up.Model;
 using shoot_them_up.Properties;
 
 
@@ -13,8 +14,12 @@ namespace player
     {
         //variables
         private int skeletoncooldawn = 0;
+        private int whennewwave = 20;
         private int demoncooldown = 0;
         private int cooldawn = 0;
+        private int skeletonreadytoshoot = 30;
+        private int demonreadytoshoot = 35;
+        private int playerreadytoshoot = 6;
         private int wavecooldawn = 0;
         private int demoninterval = 350;
         private int dashpourcent = 0;
@@ -34,20 +39,19 @@ namespace player
         private int wavecount = 0;
 
 
-        // TODO : faire une liste interface pour tous les projectils en 1 foix
-        //TODO : faire une liste interface pour tous les monstres en 1 foix
+        //TODO : faire une liste interface pour tous les projectils en 1 foix
         //TODO : changer l edraw io avec le nouveau diagramme
         //liste des objets
+        public List<IMonster> monsters = new List<IMonster>();
+
         public List<PlayerAtk> atk = new List<PlayerAtk>();
         public List<PlayerAtk> atkdelete = new List<PlayerAtk>();
 
-        public List<skeleton> skeletonwave = new List<skeleton>();
-        public List<skeleton> skeletondelete = new List<skeleton>();
+        
         public List<skeletonatk> skeletonatks = new List<skeletonatk>();
         public List<skeletonatk> skeletonatksdelete = new List<skeletonatk>();
 
-        public List<demon> demonwave = new List<demon>();
-        public List<demon> demondelete = new List<demon>();
+        
         public List<demonatk> demonatks = new List<demonatk>();
         public List<demonatk> demonatkdelete = new List<demonatk>();
 
@@ -62,7 +66,7 @@ namespace player
         //TODO : mettre les rapports et jdt dans la doc du github
         //TODO : faire le rapport
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
-        internal List<skeleton> Skeletonwave { get => skeletonwave; set => skeletonwave = value; }
+        
         public static int Score { get => score; set => score = value; }
         internal static List<bone_pile> Defense { get => defense; set => defense = value; }
         public int Wavecooldawn { get => wavecooldawn; set => wavecooldawn = value; }
@@ -159,11 +163,7 @@ namespace player
                     atk.Render(airspace);
                 }
 
-                //affiche touts les squelettes
-                foreach (skeleton skeleton in skeletonwave)
-                {
-                    skeleton.Render(airspace);
-                }
+
 
                 //affiche toutes les attaques des squelettes
                 foreach (skeletonatk atk in skeletonatks)
@@ -171,10 +171,10 @@ namespace player
                     atk.Render(airspace);
                 }
 
-                //affiche tous les démons
-                foreach (demon demon in demonwave)
+                //affiche tous les monstres
+                foreach (IMonster monster in monsters)
                 {
-                    demon.Render(airspace);
+                    monster.Render(airspace);
                 }
 
                 //affiche toutes les attaques des démons
@@ -196,10 +196,10 @@ namespace player
         public void Update(int interval)
         {
             //attend un peu puis lance une nouvelle vague si il n'y a plus d'ennemis
-            if (demonwave.Count <= 0 && skeletonwave.Count <= 0)
+            if (monsters.Count <= 0 )
             {
                 wavecooldawn++;
-                if (wavecooldawn > 20)
+                if (wavecooldawn > whennewwave)
                 {
                     wavecooldawn = 0;
                     newwave();
@@ -211,21 +211,21 @@ namespace player
             }
             //augmente les différents cooldown du tir du joueur et des ennemis
             cooldawn++;
-            skeletoncooldawn += skeletonwave.Count;
-            demoncooldown += demonwave.Count;
+            skeletoncooldawn += monsters.OfType<skeleton>().Count();
+            demoncooldown += monsters.OfType<demon>().Count();
             //coisis un squelette aléatoire et le fait tirer si le cooldown est écoulé
-            if (skeletoncooldawn >= 30 && skeletonwave.Count >= 1)
+            if (skeletoncooldawn >= skeletonreadytoshoot && monsters.OfType<skeleton>().Count() >= 1)
             {
-                skeletoncooldawn -= 30;
-                skeletonshooting = randomhelper.rndskeleton(Skeletonwave);
+                skeletoncooldawn -= skeletonreadytoshoot;
+                skeletonshooting = randomhelper.rndskeleton(monsters.OfType<skeleton>().ToList());
                 skeletonatk atk = new skeletonatk(skeletonshooting.X, skeletonshooting.Y);
                 skeletonatks.Add(atk);
             }
             //coisis un démon aléatoire et le fait tirer si le cooldown est écoulé
-            if (demoncooldown >= 35 && demonwave.Count >= 1)
+            if (demoncooldown >= demonreadytoshoot && monsters.OfType<demon>().Count() >= 1)
             {
-                demoncooldown -= 35;
-                demonshooting = randomhelper.rnddemon(demonwave);
+                demoncooldown -= demonreadytoshoot;
+                demonshooting = randomhelper.rnddemon(monsters.OfType<demon>().ToList());
                 demonatk atk = new demonatk(demonshooting.X, demonshooting.Y);
                 demonatks.Add(atk);
             }
@@ -238,13 +238,13 @@ namespace player
             }
 
             //calcul la nouvelle position de tous les squelettes
-            foreach (skeleton skeleton in skeletonwave)
+            foreach (IMonster m in monsters)
             {
 
 
-                skeleton.update(interval);
+                m.update(interval);
                 //tue le joueur si il n'as plus de defense et que un squelette est trop proche
-                if (skeleton.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
+                if (m.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
                 {
                     _player.live = 0;
                     gameover = true;
@@ -257,19 +257,7 @@ namespace player
 
                 skeletonatk.update(interval);
             }
-            //calcul la nouvelle position de tous les démons
-            foreach (demon demon in demonwave)
-            {
 
-
-                demon.update(interval);
-                //tue le joueur si il n'as plus de defense et que un démon est trop proche
-                if (demon.Y + skeleton.Height >= Config.limitheight && GameSpace.Defense.Count <= 0)
-                {
-                    _player.live = 0;
-                    gameover = true;
-                }
-            }
             //calcul la nouvelle position de toutes les attaques des démons
             foreach (demonatk demonatk in demonatks)
             {
@@ -318,14 +306,11 @@ namespace player
                         {
                             defense.Add(new bone_pile(i, Config.limitheight - bone_pile.maxheight));
                         }
-                        foreach (skeleton s in skeletonwave)
+                        foreach (IMonster s in monsters)
                         {
                             s.Speed = 2;
                         }
-                        foreach (demon d in demonwave)
-                        {
-                            d.Speed = 2;
-                        }
+
                         ClearWave();
                         newwave();
                     }
@@ -402,7 +387,7 @@ namespace player
         public void shoot()
         {
             //verifie que le cooldown du tir est écoulé pui fait tirer le joueur wt reset le cooldown
-            if (cooldawn >= 6)
+            if (cooldawn >= playerreadytoshoot)
             {
                 atk.Add(new PlayerAtk(_player.x, _player.y));
                 cooldawn = 0;
@@ -421,25 +406,27 @@ namespace player
                 }
 
 
-                foreach (skeleton s in skeletonwave)
+                foreach (skeleton s in monsters.OfType<skeleton>())
                 {
                     if (p.X + PlayerAtk.Width >= s.X && p.X <= s.X + skeleton.Height && p.Y + PlayerAtk.Height >= s.Y && p.Y <= s.Y + skeleton.Height)
                     {
+                        
                         score += skeleton.Score;
-                        skeletondelete.Add(s);
+                        s.isalive = false;
                         atkdelete.Add(p);
                     }
                 }
-                foreach (demon d in demonwave)
+                foreach (demon d in monsters.OfType<demon>())
                 {
-                    if (p.X + PlayerAtk.Width >= d.X && p.X <= d.X + skeleton.Height && p.Y + PlayerAtk.Height >= d.Y && p.Y <= d.Y + skeleton.Height)
+                    if (p.X + PlayerAtk.Width >= d.X && p.X <= d.X + demon.Height && p.Y + PlayerAtk.Height >= d.Y && p.Y <= d.Y + skeleton.Height)
                     {
                         d.Hp--;
                         atkdelete.Add(p);
                         if (d.Hp <= 0)
                         {
                             score += demon.Score;
-                            demondelete.Add(d);
+                            d.isalive = false;
+                            
                         }
 
                     }
@@ -556,15 +543,15 @@ namespace player
         //supprime tous les objets qui doivent l'être
         public void removeobj()
         {
-            //TODO : changer cette fonction avec les listes d'interaces et les bool de mort des objects
-            foreach (skeleton a in skeletondelete)
+            
+            for (int i = monsters.Count - 1; i >= 0; i--)
             {
-                skeletonwave.Remove(a);
+                if (!monsters[i].isalive) 
+                { 
+                    monsters.Remove(monsters[i]); 
+                }
             }
-            foreach (demon a in demondelete)
-            {
-                demonwave.Remove(a);
-            }
+
             foreach (skeletonatk s in skeletonatksdelete)
             {
                 skeletonatks.Remove(s);
@@ -582,8 +569,7 @@ namespace player
                 defense.Remove(b);
             }
             //reset les listes de suppression 
-            skeletondelete.Clear();
-            demondelete.Clear();
+ 
             skeletonatksdelete.Clear();
             atkdelete.Clear();
             demonatkdelete.Clear();
@@ -595,23 +581,20 @@ namespace player
             olddemon = 0;
             //diminue l'intervale entre les monstre, ce qui augmente le nombre de monstre
             wavecount++;
-
-                foreach (skeleton s in skeletonwave)
-                {
-                    s.Speed += 3;
-                }
-                foreach (demon d in demonwave)
-                {
-                    d.Speed += 3;
-                }
-            
             demoninterval -= 50;
             //regenere touts les nouveaux monstres
             for (int i = 100; i <= Config.AIRSPACEWIDTH; i += demoninterval)
             {
-                demonwave.Add(new demon(i, 100));
-                skeletonwave.Add(new skeleton((int)((olddemon + i) / 2), 0));
+                monsters.Add(new demon(i, 100));
+                monsters.Add(new skeleton((int)((olddemon + i) / 2), 0));
                 olddemon = i;
+            }
+            if (wavecount % 2 == 0)
+            {
+                foreach (IMonster s in monsters)
+                {
+                    s.Speed += 1;
+                }
             }
             //verifie que aucun n'as été créé en dehors de l'écran
             isinscreen();
@@ -620,20 +603,6 @@ namespace player
         //verifie que tous les objets sont encore dans l'écran 
         public void isinscreen()
         {
-            foreach (skeleton s in skeletonwave)
-            {
-                if (s.X < 0 || s.X > Config.AIRSPACEWIDTH - skeleton.Height || s.Y < 0 || s.Y > Config.AIRSPACEHEIGHT - skeleton.Height)
-                {
-                    skeletondelete.Add(s);
-                }
-            }
-            foreach (demon d in demonwave)
-            {
-                if (d.X < 0 || d.X > Config.AIRSPACEWIDTH - demon.Height || d.Y < 0 || d.Y > Config.AIRSPACEHEIGHT - demon.Height)
-                {
-                    demondelete.Add(d);
-                }
-            }
             foreach (demonatk d in demonatks)
             {
                 if (d.X < 0 || d.X > Config.AIRSPACEWIDTH - demonatk.Width || d.Y < 0 || d.Y > Config.AIRSPACEHEIGHT - demonatk.Height)
@@ -670,9 +639,7 @@ namespace player
         //supprime tous les ennemis de l'écran
         public void ClearWave()
         {
-
-            skeletonwave.Clear();
-            demonwave.Clear();
+            monsters.Clear();
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using player.Helpers;
+using shoot_them_up.Model;
 using shoot_them_up.Properties;
 
 namespace player.Model
 {
-    public class demon
+    public class demon : IMonster
     {
         //variables
 
@@ -18,6 +19,8 @@ namespace player.Model
         private bool down = true;
         private int walktime = 0;
         private bool lastleft = false;
+        private bool alive;
+
 
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int X { get => x; set => x = value; }
@@ -31,6 +34,10 @@ namespace player.Model
         public bool Down { get => down; set => down = value; }
         public int Walktime { get => walktime; set => walktime = value; }
         public bool Lastleft { get => lastleft; set => lastleft = value; }
+        public bool isalive { get => alive; set => alive = value; }
+   
+
+
 
 
         //constructeur
@@ -40,6 +47,7 @@ namespace player.Model
             this.y = y;
             this.speed = 2;
             this.hp = 2;
+            isalive = true;
         }
 
         //méthode pour dessiner le démon sur l'espace de dessin
@@ -125,7 +133,12 @@ namespace player.Model
                         }
                     }
                 }
+                if ((x < 0 || x > Config.AIRSPACEWIDTH - skeleton.Height || y < 0 || y > Config.AIRSPACEHEIGHT - skeleton.Height) && isalive)
+                {
+                    isalive = false;
+                }
             }
         }
+
     }
 }

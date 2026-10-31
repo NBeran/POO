@@ -1,9 +1,10 @@
 ﻿using player.Helpers;
+using shoot_them_up.Model;
 using shoot_them_up.Properties;
 
 namespace player.Model
 {
-    public class skeleton
+    public class skeleton : IMonster
     {
         //variables
         private int x;
@@ -17,6 +18,8 @@ namespace player.Model
         private bool down = true;
         private int walktime = 0;
         private bool lastleft = false;
+        private bool alive;
+        public bool isalive { get => alive;  set => alive = value; }
 
         //getter setter pour les variables qui doivent être accessibles depuis l'extérieur de la classe
         public int X { get => x; set => x = value; }
@@ -30,6 +33,7 @@ namespace player.Model
         public bool Left { get => left; set => left = value; }
         public bool Right { get => right; set => right = value; }
         public int Walktime { get => walktime; set => walktime = value; }
+        
 
         //constructeur
         public skeleton(int x, int y)
@@ -38,6 +42,7 @@ namespace player.Model
             this.y = y;
             this.speed = 2;
             this.hp = 1;
+            isalive = true;
         }
 
         //méthode pour dessiner le squelette
@@ -119,6 +124,10 @@ namespace player.Model
                             lastleft = true;
                         }
                     }
+                }
+                if (x < 0 || x > Config.AIRSPACEWIDTH - skeleton.Height || y < 0 || y > Config.AIRSPACEHEIGHT - skeleton.Height)
+                {
+                    isalive = false;
                 }
             }
         }
