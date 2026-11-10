@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="396" viewBox="0 0 760 396" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+<rect width="760" height="396" fill="#fcfcfb"/>
+<text x="56" y="28" font-size="17" font-weight="600" fill="#0b0b0b">Noé Béran  ·  MID2B</text>
+<text x="56" y="50" font-size="12.5" fill="#52514e">Lignes de code C# ajoutées ou modifiées par semaine · total 2 982 ajoutées, 997 supprimées, 45 commits</text>
+<line x1="56" x2="740" y1="314.0" y2="314.0" stroke="#9a9994" stroke-width="1"/>
+<text x="48" y="318.0" font-size="11" fill="#6b6a66" text-anchor="end">0</text>
+<line x1="56" x2="740" y1="255.0" y2="255.0" stroke="#e6e5e1" stroke-width="1"/>
+<text x="48" y="259.0" font-size="11" fill="#6b6a66" text-anchor="end">500</text>
+<line x1="56" x2="740" y1="196.0" y2="196.0" stroke="#e6e5e1" stroke-width="1"/>
+<text x="48" y="200.0" font-size="11" fill="#6b6a66" text-anchor="end">1 000</text>
+<line x1="56" x2="740" y1="137.0" y2="137.0" stroke="#e6e5e1" stroke-width="1"/>
+<text x="48" y="141.0" font-size="11" fill="#6b6a66" text-anchor="end">1 500</text>
+<line x1="56" x2="740" y1="78.0" y2="78.0" stroke="#e6e5e1" stroke-width="1"/>
+<text x="48" y="82.0" font-size="11" fill="#6b6a66" text-anchor="end">2 000</text>
+<text x="87.1" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">24.08</text>
+<text x="87.1" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S35</text>
+<text x="87.1" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">2 commits</text>
+<text x="149.3" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">31.08</text>
+<text x="149.3" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S36</text>
+<text x="149.3" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">2 commits</text>
+<path d="M194.5,314.0 V295.2 Q194.5,291.2 198.5,291.2 H224.5 Q228.5,291.2 228.5,295.2 V314.0 Z" fill="#2a78d6"><title>Semaine du 07.09: +193 / -0 lignes, 2 commit(s)</title></path>
+<text x="211.5" y="285.2" font-size="11" fill="#0b0b0b" text-anchor="middle">193</text>
+<text x="211.5" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">07.09</text>
+<text x="211.5" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S37</text>
+<text x="211.5" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">2 commits</text>
+<path d="M256.6,314.0 V309.6 Q256.6,305.6 260.6,305.6 H286.6 Q290.6,305.6 290.6,309.6 V314.0 Z" fill="#2a78d6"><title>Semaine du 14.09: +71 / -36 lignes, 1 commit(s)</title></path>
+<text x="273.6" y="299.6" font-size="11" fill="#0b0b0b" text-anchor="middle">71</text>
+<text x="273.6" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">14.09</text>
+<text x="273.6" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S38</text>
+<text x="273.6" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">1 commit</text>
+<path d="M318.8,314.0 V283.5 Q318.8,279.5 322.8,279.5 H348.8 Q352.8,279.5 352.8,283.5 V314.0 Z" fill="#2a78d6"><title>Semaine du 21.09: +292 / -183 lignes, 7 commit(s)</title></path>
+<text x="335.8" y="273.5" font-size="11" fill="#0b0b0b" text-anchor="middle">292</text>
+<text x="335.8" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">21.09</text>
+<text x="335.8" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S39</text>
+<text x="335.8" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">7 commits</text>
+<path d="M381.0,314.0 V272.5 Q381.0,268.5 385.0,268.5 H411.0 Q415.0,268.5 415.0,272.5 V314.0 Z" fill="#2a78d6"><title>Semaine du 28.09: +386 / -43 lignes, 3 commit(s)</title></path>
+<text x="398.0" y="262.5" font-size="11" fill="#0b0b0b" text-anchor="middle">386</text>
+<text x="398.0" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">28.09</text>
+<text x="398.0" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S40</text>
+<text x="398.0" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">3 commits</text>
+<path d="M443.2,314.0 V285.9 Q443.2,281.9 447.2,281.9 H473.2 Q477.2,281.9 477.2,285.9 V314.0 Z" fill="#2a78d6"><title>Semaine du 05.10: +272 / -58 lignes, 3 commit(s)</title></path>
+<text x="460.2" y="275.9" font-size="11" fill="#0b0b0b" text-anchor="middle">272</text>
+<text x="460.2" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">05.10</text>
+<text x="460.2" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S41</text>
+<text x="460.2" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">3 commits</text>
+<text x="522.4" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">12.10</text>
+<text x="522.4" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S42</text>
+<text x="522.4" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">—</text>
+<text x="584.5" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">19.10</text>
+<text x="584.5" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S43</text>
+<text x="584.5" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">—</text>
+<path d="M629.7,314.0 V109.4 Q629.7,105.4 633.7,105.4 H659.7 Q663.7,105.4 663.7,109.4 V314.0 Z" fill="#2a78d6"><title>Semaine du 26.10: +1768 / -677 lignes, 25 commit(s)</title></path>
+<text x="646.7" y="99.4" font-size="11" fill="#0b0b0b" text-anchor="middle">1768</text>
+<text x="646.7" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">26.10</text>
+<text x="646.7" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S44</text>
+<text x="646.7" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">25 commits</text>
+<text x="708.9" y="331.0" font-size="11" fill="#0b0b0b" text-anchor="middle">02.11</text>
+<text x="708.9" y="345.0" font-size="10" fill="#6b6a66" text-anchor="middle">S45</text>
+<text x="708.9" y="360.0" font-size="10" fill="#6b6a66" text-anchor="middle">—</text>
+<text x="740" y="390" font-size="9.5" fill="#8a8984" text-anchor="end">Fichiers .cs uniquement (hors *.Designer.cs, bin/, obj/, .vs/) · commits de l'enseignant exclus · généré le 08.11.2026</text>
+</svg>
